@@ -2,8 +2,8 @@
 
 **Projeto:** NuBanko  
 **Equipe:** CodeCraft  
-**Versão:** 1.0  
-**Responsável pelo documento:** Guilherme Lima - Product Owner (PO)  
+**Versão:** 1.1  
+**Responsável pelo documento:** Guilherme Lima — Product Owner (PO)  
 **Status:** Em desenvolvimento
 
 ---
@@ -42,6 +42,7 @@ Jovens de 18 a 24 anos que:
 **Comportamento:** Lari tenta organizar seus gastos em planilhas, mas costuma abandonar o controle depois da segunda semana.
 
 **Necessidades:**
+
 - Saber quanto dinheiro possui.
 - Acompanhar seus gastos.
 - Entender para onde seu dinheiro está indo.
@@ -58,13 +59,17 @@ Desenvolver uma aplicação web que facilite o controle financeiro pessoal, perm
 
 ## 6. Requisitos funcionais
 
-### RF01 — Login
+### RF01 — Login demonstrativo
 
-O sistema deverá disponibilizar uma tela de login para permitir o acesso à aplicação.
+O sistema deverá disponibilizar uma tela de login com campos de usuário/e-mail e senha para permitir o acesso à aplicação.
 
-Para a demonstração do projeto, será utilizado um acesso fictício previamente definido pela equipe.
+Para a demonstração do projeto, será utilizada uma única conta fictícia, com credenciais previamente definidas pela equipe.
 
-Não faz parte do MVP implementar cadastro público de usuários.
+Após a validação do acesso, o usuário deverá ser direcionado ao Dashboard e poderá encerrar a sessão por meio da opção de logout.
+
+Não faz parte do MVP implementar cadastro público ou gerenciamento de múltiplos usuários.
+
+As credenciais não deverão ser armazenadas na planilha do Google Sheets. A forma de validação e proteção do acesso deverá ser definida pelo Tech Lead, considerando as limitações de segurança da arquitetura demonstrativa.
 
 ### RF02 — Dashboard financeiro
 
@@ -101,6 +106,8 @@ O sistema deverá permitir registrar despesas contendo:
 
 O usuário deverá conseguir visualizar, editar e excluir receitas e despesas cadastradas.
 
+Após qualquer inclusão, edição ou exclusão, os indicadores financeiros do Dashboard deverão ser atualizados de acordo com os registros existentes.
+
 ### RF06 — Caixinhas (metas financeiras)
 
 O sistema deverá permitir criar metas financeiras com:
@@ -124,7 +131,7 @@ A aplicação deverá apresentar o progresso de cada meta em relação ao valor 
 
 **RN03:** O saldo total corresponde à soma das receitas menos a soma das despesas.
 
-**RN04:** O saldo disponível corresponde ao saldo total menos os valores reservados nas Caixinhas.
+**RN04:** O saldo reservado nas Caixinhas corresponde à soma dos depósitos realizados menos a soma das retiradas. O saldo disponível corresponde ao saldo total menos o valor reservado nas Caixinhas.
 
 **RN05:** Depósitos nas Caixinhas não devem ser contabilizados como despesas de consumo.
 
@@ -136,7 +143,7 @@ A aplicação deverá apresentar o progresso de cada meta em relação ao valor 
 
 **RN09:** O sistema não deverá permitir saldo disponível negativo.
 
-**RN10:** Os indicadores do Dashboard deverão ser calculados com base nos registros financeiros e nas movimentações das Caixinhas.
+**RN10:** Os indicadores do Dashboard deverão ser calculados com base nos registros financeiros e nas movimentações das Caixinhas. Inclusões, alterações e exclusões deverão refletir automaticamente nos valores apresentados.
 
 ## 8. Requisitos não funcionais
 
@@ -156,7 +163,7 @@ A aplicação deverá apresentar o progresso de cada meta em relação ao valor 
 
 ## 9. Arquitetura e tecnologias previstas
 
-A solução será desenvolvida utilizando as seguintes tecnologias:
+A arquitetura proposta para o projeto utilizará as seguintes tecnologias:
 
 - **React:** desenvolvimento da interface e funcionalidades da aplicação.
 - **Make:** integração entre a aplicação e o armazenamento de dados.
@@ -168,6 +175,8 @@ A solução será desenvolvida utilizando as seguintes tecnologias:
 O fluxo previsto de comunicação será:
 
 **React → Make → Google Planilhas**
+
+Essa arquitetura representa a proposta inicial do produto e deverá ser validada pelo Tech Lead, que poderá definir os ajustes técnicos necessários, desde que sejam preservados os requisitos e as regras de negócio estabelecidos neste documento.
 
 A implementação do login e da comunicação com o Make deverá considerar as limitações de segurança de uma aplicação demonstrativa, sem apresentar mecanismos simulados como se fossem autenticação ou proteção de dados de produção.
 
@@ -238,10 +247,15 @@ O MVP será considerado funcional quando:
 - O usuário conseguir acessar a aplicação pelo login demonstrativo.
 - O Dashboard apresentar os indicadores financeiros.
 - For possível cadastrar, editar, visualizar e excluir receitas e despesas.
-- Os valores do Dashboard forem atualizados conforme os lançamentos.
+- Os valores do Dashboard forem atualizados corretamente após inclusão, edição ou exclusão de lançamentos.
+- O sistema não permitir o cadastro de receitas ou despesas com valores iguais ou inferiores a zero.
 - For possível criar e visualizar Caixinhas.
 - For possível realizar depósitos e retiradas respeitando as regras de negócio.
-- O progresso das metas for apresentado corretamente.
+- O sistema impedir depósitos superiores ao saldo disponível.
+- O sistema impedir retiradas superiores ao valor acumulado na Caixinha.
+- O saldo disponível não ficar negativo após uma movimentação.
+- O valor acumulado e o progresso de cada Caixinha forem atualizados corretamente após depósitos e retiradas.
+- Os depósitos e retiradas não forem contabilizados como despesas de consumo.
 - Os dados forem persistidos no Google Planilhas por meio do Make.
 - A aplicação apresentar funcionamento adequado em computadores e dispositivos móveis.
 

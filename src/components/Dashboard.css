@@ -1,0 +1,24 @@
+.balance-card-bottom {
+  margin: 0;
+}
+
+.balance-card-bottom > div {
+  display: grid;
+}
+
+.balance-card-bottom dt,
+.balance-card-bottom dd {
+  margin: 0;
+  color: #fff;
+  font-size: 11px;
+}
+
+.balance-card-bottom dt {
+  color: rgba(255, 255, 255, .67);
+  font-size: 9px;
+}
+
+.category-chart {
+  padding: 0;
+  list-style: none;
+}

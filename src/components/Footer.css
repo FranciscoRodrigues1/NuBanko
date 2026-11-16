@@ -1,0 +1,9 @@
+.app-footer {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 760px) {
+  .app-footer {
+    padding-bottom: 82px;
+  }
+}

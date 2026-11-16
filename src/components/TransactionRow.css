@@ -1,0 +1,7 @@
+.transaction-main {
+  flex: 1;
+}
+
+.transaction-date {
+  flex: 0 0 50px;
+}

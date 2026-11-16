@@ -65,6 +65,8 @@ O sistema deverá disponibilizar uma tela de login com campos de usuário/e-mail
 
 Para a demonstração do projeto, será utilizada uma única conta fictícia, com credenciais previamente definidas pela equipe.
 
+Na implementação atual, o acesso demonstrativo é configurado localmente pelas variáveis `VITE_DEMO_EMAIL` e `VITE_DEMO_PASSWORD` no arquivo `.env` (consulte `.env.example`). Como variáveis `VITE_*` são incluídas no código entregue ao navegador, este login serve apenas para demonstração e não protege informações nem substitui autenticação de produção.
+
 Após a validação do acesso, o usuário deverá ser direcionado ao Dashboard e poderá encerrar a sessão por meio da opção de logout.
 
 Não faz parte do MVP implementar cadastro público ou gerenciamento de múltiplos usuários.

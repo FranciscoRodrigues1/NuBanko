@@ -58,16 +58,6 @@ function readAccounts() {
   }
 }
 
-function startSession() {
-  try {
-    window.sessionStorage.setItem(SESSION_KEY, "authenticated");
-    return { ok: true };
-  } catch (error) {
-    console.error("Não foi possível iniciar a sessão demonstrativa.", error);
-    return { ok: false, reason: "session-storage" };
-  }
-}
-
 export async function authenticate(email, password) {
   const demoEmail = import.meta.env.VITE_DEMO_EMAIL;
   const demoPassword = import.meta.env.VITE_DEMO_PASSWORD;
@@ -75,7 +65,7 @@ export async function authenticate(email, password) {
   if (demoEmail && demoPassword &&
       normalizeEmail(email) === normalizeEmail(demoEmail) &&
       password === demoPassword) {
-    return startSession();
+    return startSession(demoEmail);
   }
 
   const stored = readAccounts();
@@ -86,7 +76,7 @@ export async function authenticate(email, password) {
     const digest = account
       ? await passwordDigest(password, fromHex(account.passwordSalt))
       : "";
-    if (account && account.passwordHash === digest) return startSession();
+    if (account && account.passwordHash === digest) return startSession(account.email);
   } catch (error) {
     console.error("Não foi possível validar a senha da conta demonstrativa.", error);
     return { ok: false, reason: "password-validation" };
@@ -128,13 +118,29 @@ export async function registerAccount(email, password, confirmation) {
     return { ok: false, reason: "registration-failed" };
   }
 
-  return startSession();
+  return startSession(normalizedEmail);
 }
 
 export function hasSession() {
   return window.sessionStorage.getItem(SESSION_KEY) === "authenticated";
 }
 
+function startSession(email) {
+  try {
+    window.sessionStorage.setItem("nubanko-demo-email", normalizeEmail(email));
+    window.sessionStorage.setItem(SESSION_KEY, "authenticated");
+    return { ok: true };
+  } catch (error) {
+    console.error("Não foi possível iniciar a sessão demonstrativa.", error);
+    return { ok: false, reason: "session-storage" };
+  }
+}
+
+export function getSessionEmail() {
+  return window.sessionStorage.getItem("nubanko-demo-email");
+}
+
 export function endSession() {
   window.sessionStorage.removeItem(SESSION_KEY);
+  window.sessionStorage.removeItem("nubanko-demo-email");
 }

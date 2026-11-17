@@ -1,5 +1,14 @@
 export const STORAGE_KEY = "nubanko-demo-state";
 
+function getStorageKey(accountEmail) {
+  const demoEmail = import.meta.env.VITE_DEMO_EMAIL;
+  const normalizedEmail = accountEmail?.trim().toLocaleLowerCase("pt-BR");
+  if (!normalizedEmail || (demoEmail && normalizedEmail === demoEmail.trim().toLocaleLowerCase("pt-BR"))) {
+    return STORAGE_KEY;
+  }
+  return `${STORAGE_KEY}-${encodeURIComponent(normalizedEmail)}`;
+}
+
 export const categories = {
   income: ["Salário", "Freelance", "Presente", "Outros"],
   expense: [
@@ -62,10 +71,17 @@ export function createDemoState() {
   };
 }
 
-export function readSavedState() {
+export function readSavedState(accountEmail = null) {
+  const isRegisteredAccount = Boolean(
+    accountEmail &&
+    (!import.meta.env.VITE_DEMO_EMAIL ||
+      accountEmail.trim().toLocaleLowerCase("pt-BR") !== import.meta.env.VITE_DEMO_EMAIL.trim().toLocaleLowerCase("pt-BR")),
+  );
+  const emptyAccountState = { transactions: [], goals: [] };
+  const fallbackData = isRegisteredAccount ? emptyAccountState : createDemoState();
   try {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (!saved) return { data: createDemoState(), error: "" };
+    const saved = window.localStorage.getItem(getStorageKey(accountEmail));
+    if (!saved) return { data: fallbackData, error: "" };
 
     const data = JSON.parse(saved);
     if (!data || !Array.isArray(data.transactions) || !Array.isArray(data.goals)) {
@@ -76,14 +92,14 @@ export function readSavedState() {
   } catch (error) {
     console.error("Não foi possível carregar os dados locais do NuBanko.", error);
     return {
-      data: createDemoState(),
+      data: fallbackData,
       error: "Não foi possível ler os dados salvos. Uma demonstração foi carregada.",
     };
   }
 }
 
-export function saveState(transactions, goals) {
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ transactions, goals }));
+export function saveState(transactions, goals, accountEmail = null) {
+  window.localStorage.setItem(getStorageKey(accountEmail), JSON.stringify({ transactions, goals }));
 }
 
 export function roundMoney(value) {

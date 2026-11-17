@@ -28,6 +28,14 @@
   background: #4bb39b;
 }
 
+.app-shell[data-theme="dark"] .goal-progress-bar::-webkit-progress-bar {
+  background: #292d38;
+}
+
+.app-shell[data-theme="dark"] .goal-progress-bar {
+  background: #292d38;
+}
+
 .goal-symbol,
 .goal-card-symbol {
   font-size: 19px;

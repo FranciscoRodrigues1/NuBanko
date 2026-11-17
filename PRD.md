@@ -63,9 +63,11 @@ Desenvolver uma aplicação web que facilite o controle financeiro pessoal, perm
 
 O sistema deverá disponibilizar uma tela de login com campos de usuário/e-mail e senha para permitir o acesso à aplicação.
 
-Para a demonstração do projeto, será utilizada uma única conta fictícia, com credenciais previamente definidas pela equipe.
+Para a demonstração do projeto, existe uma conta fictícia com credenciais previamente definidas pela equipe. A tela também permite criar contas locais demonstrativas no navegador atual; cada conta local mantém seus próprios dados financeiros neste navegador.
 
 Na implementação atual, o acesso demonstrativo é configurado localmente pelas variáveis `VITE_DEMO_EMAIL` e `VITE_DEMO_PASSWORD` no arquivo `.env` (consulte `.env.example`). Como variáveis `VITE_*` são incluídas no código entregue ao navegador, este login serve apenas para demonstração e não protege informações nem substitui autenticação de produção.
+
+As contas criadas pela interface são armazenadas somente no `localStorage` do navegador, com a senha derivada por PBKDF2; isso não oferece autenticação ou proteção adequada para uso real, sincronização entre dispositivos ou recuperação de conta.
 
 Após a validação do acesso, o usuário deverá ser direcionado ao Dashboard e poderá encerrar a sessão por meio da opção de logout.
 

@@ -16,12 +16,12 @@ import {
   saveState,
   saveTransaction,
 } from "./services/financeService.js";
-import { endSession, hasSession } from "./services/authService.js";
+import { endSession, getSessionEmail, hasSession } from "./services/authService.js";
 import { readThemePreference, saveThemePreference } from "./services/themeService.js";
 import "./App.css";
 
 export default function App() {
-  const [initialState] = useState(readSavedState);
+  const [initialState] = useState(() => readSavedState(getSessionEmail()));
   const [transactions, setTransactions] = useState(initialState.data.transactions);
   const [goals, setGoals] = useState(initialState.data.goals);
   const [authenticated, setAuthenticated] = useState(hasSession);
@@ -34,13 +34,14 @@ export default function App() {
   const [celebration, setCelebration] = useState(null);
 
   useEffect(() => {
+    if (!authenticated) return;
     try {
-      saveState(transactions, goals);
+      saveState(transactions, goals, getSessionEmail());
     } catch (error) {
       console.error("Não foi possível salvar os dados locais do NuBanko.", error);
       setNotice("Não foi possível salvar as alterações neste navegador.");
     }
-  }, [transactions, goals]);
+  }, [transactions, goals, authenticated]);
 
   useEffect(() => {
     try {
@@ -131,8 +132,16 @@ export default function App() {
     setModal(null);
   }
 
+  function login() {
+    const saved = readSavedState(getSessionEmail());
+    setTransactions(saved.data.transactions);
+    setGoals(saved.data.goals);
+    setNotice(saved.error);
+    setAuthenticated(true);
+  }
+
   if (!authenticated) {
-    return <Login onLogin={() => setAuthenticated(true)} />;
+    return <Login onLogin={login} />;
   }
 
   const dashboard = {

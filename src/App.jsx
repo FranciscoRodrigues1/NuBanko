@@ -204,8 +204,10 @@ function App() {
   const [notice, setNotice] = useState(initialState.error);
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
+  const [celebration, setCelebration] = useState(null);
 
   useEffect(() => {
+    if (!authenticated) return;
     try {
       window.localStorage.setItem(
         STORAGE_KEY,
@@ -271,6 +273,8 @@ function App() {
     },
   ];
 
+  const totals = useMemo(() => getTotals(transactions, goals), [transactions, goals]);
+  const monthSummary = useMemo(() => getMonthSummary(transactions), [transactions]);
   const sortedTransactions = useMemo(
     () => [...transactions].sort((a, b) => b.date.localeCompare(a.date)),
     [transactions],
@@ -282,66 +286,52 @@ function App() {
       .includes(query.toLocaleLowerCase("pt-BR"));
     return matchesType && matchesQuery;
   });
-  const recentTransactions = sortedTransactions.slice(0, 5);
-  const expenseByCategory = thisMonth
-    .filter((item) => item.type === "expense")
-    .reduce((result, item) => {
-      result[item.category] = (result[item.category] ?? 0) + item.amount;
-      return result;
-    }, {});
-  const chartItems = Object.entries(expenseByCategory)
-    .map(([category, amount]) => ({ category, amount }))
-    .sort((a, b) => b.amount - a.amount);
-  const maxCategoryExpense = Math.max(...chartItems.map((item) => item.amount), 1);
-  const title = page === "home" ? "Visão geral" : page === "transactions" ? "Movimentações" : "Caixinhas";
 
   function showNotice(message) {
     setNotice(message);
     window.setTimeout(() => setNotice(""), 4500);
   }
 
-  function saveTransaction(values) {
-    const next = modal.transaction
-      ? transactions.map((item) =>
-          item.id === modal.transaction.id ? { ...values, id: item.id } : item,
-        )
-      : [...transactions, { ...values, id: makeId() }];
-    if (getTotals(next, goals).available < 0) {
+  function handleSaveTransaction(values) {
+    const result = saveTransaction(transactions, goals, values, modal.transaction);
+    if (!result.ok) {
       showNotice("Essa alteração deixaria o saldo disponível negativo.");
       return false;
     }
-    setTransactions(next);
+    setTransactions(result.transactions);
     setModal(null);
     showNotice(modal.transaction ? "Movimentação atualizada." : "Movimentação adicionada.");
     return true;
   }
 
-  function removeTransaction(transaction) {
-    const next = transactions.filter((item) => item.id !== transaction.id);
-    if (getTotals(next, goals).available < 0) {
+  function handleDeleteTransaction(transaction) {
+    const result = deleteTransaction(transactions, goals, transaction.id);
+    if (!result.ok) {
       showNotice("Não é possível excluir: o saldo disponível ficaria negativo.");
       return;
     }
-    setTransactions(next);
+    setTransactions(result.transactions);
     showNotice("Movimentação excluída.");
   }
 
-  function saveGoal(values) {
-    setGoals((current) => [...current, { ...values, id: makeId(), saved: 0 }]);
+  function handleSaveGoal(values) {
+    setGoals((current) => addGoal(current, values));
     setModal(null);
     showNotice("Caixinha criada.");
   }
 
-  function moveGoal(goalId, type, amount) {
-    const goal = goals.find((item) => item.id === goalId);
-    if (!goal || !Number.isFinite(amount) || amount <= 0) return false;
-    if (type === "deposit" && amount > totals.available) {
-      showNotice("O valor do depósito supera seu saldo disponível.");
+  function handleMoveGoal(amount) {
+    const previousGoal = goals.find((item) => item.id === modal.goalId);
+    const result = moveGoal(goals, totals.available, modal.goalId, modal.movementType, amount);
+    if (!result.ok) {
+      if (result.reason === "insufficient-available") showNotice("O valor do depósito supera seu saldo disponível.");
+      if (result.reason === "insufficient-goal-balance") showNotice("O valor da retirada supera o saldo desta Caixinha.");
       return false;
     }
-    if (type === "withdraw" && amount > goal.saved) {
-      showNotice("O valor da retirada supera o saldo desta Caixinha.");
-      return false;
+    setGoals(result.goals);
+    const updatedGoal = result.goals.find((item) => item.id === modal.goalId);
+    if (previousGoal && previousGoal.saved < previousGoal.target && updatedGoal.saved >= updatedGoal.target) {
+      setCelebration({ id: Date.now(), goalName: updatedGoal.name });
     }
     const updatedSavings = roundMoney(goal.saved + (type === "deposit" ? amount : -amount));
     setGoalMovements((current) => [
@@ -378,7 +368,7 @@ function App() {
     return true;
   }
 
-  function removeGoal(goal) {
+  function handleDeleteGoal(goal) {
     if (!window.confirm(`Excluir a Caixinha "${goal.name}"? O valor guardado voltará ao saldo disponível.`)) {
       return;
     }
@@ -957,19 +947,12 @@ function TransactionModal({ transaction, available, onClose, onSave }) {
     setCategory(categories[value][0]);
   }
 
-  function submit(event) {
-    event.preventDefault();
-    const numericAmount = Number(amount);
-    if (!description.trim() || !Number.isFinite(numericAmount) || numericAmount <= 0 || !date) {
-      setError("Preencha a descrição, um valor maior que zero e a data.");
-      return;
-    }
-    const availableForExpense = available + (transaction?.type === "expense" ? transaction.amount : 0);
-    if (type === "expense" && numericAmount > availableForExpense) {
-      setError(`O valor não pode superar seu saldo disponível (${money.format(availableForExpense)}).`);
-      return;
-    }
-    onSave({ description: description.trim(), amount: roundMoney(numericAmount), type, category, date });
+  function login() {
+    const saved = readSavedState(getSessionEmail());
+    setTransactions(saved.data.transactions);
+    setGoals(saved.data.goals);
+    setNotice(saved.error);
+    setAuthenticated(true);
   }
 
   return (
@@ -1057,5 +1040,3 @@ function MovementModal({ goal, movementType, available, onClose, onSave }) {
     </ModalShell>
   );
 }
-
-export default App;

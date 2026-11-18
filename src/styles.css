@@ -44,7 +44,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .profile-copy .inline-content { color: #a3a0ae; font-size: 10px; }
 .profile-status { width: 7px; height: 7px; margin-left: auto; border-radius: 50%; background: #55c393; }
 .main-content { min-height: 100vh; margin-left: 252px; display: flex; flex-direction: column; }
-.topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; min-height: 70px; padding: 0 42px; border-bottom: 1px solid #efedf4; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); }
+.topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; min-height: 70px; margin-left: 252px; padding: 0 42px; border-bottom: 1px solid #efedf4; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); }
 .breadcrumbs { display: flex; align-items: center; gap: 9px; color: #aaa7b7; font-size: 12px; }
 .breadcrumbs svg { color: #c1becb; }
 .breadcrumbs strong { color: #4b485b; font-weight: 600; }
@@ -233,7 +233,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 @media (max-width: 1100px) {
   .sidebar { width: 220px; }
   .main-content { margin-left: 220px; }
-  .topbar { padding-right: 27px; padding-left: 27px; }
+  .topbar { margin-left: 220px; padding-right: 27px; padding-left: 27px; }
   .page-content { padding-right: 27px; padding-left: 27px; }
   .overview-grid { grid-template-columns: 1fr 1fr; }
   .balance-card { grid-column: span 2; }
@@ -246,7 +246,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
   .nav-item { flex-direction: column; justify-content: center; gap: 3px; min-height: 0; padding: 5px 2px; border-radius: 9px; font-size: 9px; }
   .nav-indicator { top: 0; right: 50%; width: 22px; height: 2px; border-radius: 0 0 3px 3px; transform: translateX(50%); }
   .main-content { margin-left: 0; padding-bottom: 66px; }
-  .topbar { min-height: 58px; padding: 0 17px; }
+  .topbar { min-height: 58px; margin-left: 0; padding: 0 17px; }
   .mobile-brand { display: flex; align-items: center; gap: 7px; color: #39344f; font: 800 15px "Segoe UI", Arial, sans-serif; }
   .mobile-brand .brand-mark { width: 27px; height: 27px; border-radius: 9px; font-size: 19px; }
   .breadcrumbs { display: none; }
@@ -745,5 +745,365 @@ body {
     animation: none !important;
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
+  }
+}
+
+.app-shell[data-theme="dark"] {
+  color-scheme: dark;
+  color: #e9e9f2;
+  background: #0c0e14;
+}
+
+.app-shell[data-theme="dark"] .sidebar {
+  border-color: #222631;
+  background: #0b0d12;
+}
+
+.app-shell[data-theme="dark"] .brand,
+.app-shell[data-theme="dark"] .profile-copy strong {
+  color: #f0eff8;
+}
+
+.app-shell[data-theme="dark"] .workspace-label,
+.app-shell[data-theme="dark"] .profile-copy span,
+.app-shell[data-theme="dark"] .profile-status + span {
+  color: #747888;
+}
+
+.app-shell[data-theme="dark"] .brand-light {
+  color: #a98aff;
+}
+
+.app-shell[data-theme="dark"] .nav-item {
+  color: #8e91a1;
+}
+
+.app-shell[data-theme="dark"] .nav-item:hover {
+  color: #c4b1ff;
+  background: #191624;
+}
+
+.app-shell[data-theme="dark"] .nav-item.active {
+  color: #d3c4ff;
+  background: #211a35;
+}
+
+.app-shell[data-theme="dark"] .sidebar-tip,
+.app-shell[data-theme="dark"] .level-card {
+  border-color: #292440;
+  background: linear-gradient(145deg, #171521, #111a1d);
+}
+
+.app-shell[data-theme="dark"] .sidebar-tip strong,
+.app-shell[data-theme="dark"] .level-title {
+  color: #e2dcf5;
+}
+
+.app-shell[data-theme="dark"] .sidebar-tip p,
+.app-shell[data-theme="dark"] .level-caption {
+  color: #88899b;
+}
+
+.app-shell[data-theme="dark"] .profile {
+  border-color: #242733;
+}
+
+.app-shell[data-theme="dark"] .topbar {
+  border-color: #222631;
+  background: rgba(12, 14, 20, .92);
+}
+
+.app-shell[data-theme="dark"] .breadcrumbs strong {
+  color: #d8d7e2;
+}
+
+.app-shell[data-theme="dark"] .demo-pill {
+  color: #9699a8;
+}
+
+.app-shell[data-theme="dark"] .theme-toggle {
+  border-color: #34313f;
+  color: #d3c4ff;
+  background: #17151f;
+}
+
+.app-shell[data-theme="dark"] .theme-toggle:hover {
+  border-color: #7455d9;
+  color: #fff;
+  background: #211a35;
+}
+
+.app-shell[data-theme="dark"] .page-content {
+  background: #0c0e14;
+}
+
+.app-shell[data-theme="dark"] .eyebrow,
+.app-shell[data-theme="dark"] .heading-copy,
+.app-shell[data-theme="dark"] .panel-heading p,
+.app-shell[data-theme="dark"] .metric-label,
+.app-shell[data-theme="dark"] .metric-period,
+.app-shell[data-theme="dark"] .metric-caption,
+.app-shell[data-theme="dark"] .transaction-date,
+.app-shell[data-theme="dark"] .goal-title-wrap span,
+.app-shell[data-theme="dark"] .goal-values,
+.app-shell[data-theme="dark"] .goal-card-bottom,
+.app-shell[data-theme="dark"] .goal-deadline,
+.app-shell[data-theme="dark"] .goals-note,
+.app-shell[data-theme="dark"] .app-footer,
+.app-shell[data-theme="dark"] .empty-state p {
+  color: #8b8e9d;
+}
+
+.app-shell[data-theme="dark"] h1,
+.app-shell[data-theme="dark"] .panel-heading h2,
+.app-shell[data-theme="dark"] .goal-card h2 {
+  color: #f0eff8;
+}
+
+.app-shell[data-theme="dark"] h1 span {
+  color: #a584ff;
+}
+
+.app-shell[data-theme="dark"] .balance-card {
+  border: 1px solid rgba(176, 150, 255, .36);
+  background: linear-gradient(125deg, #6f3bea 0%, #4920b7 58%, #251060 100%);
+  box-shadow: 0 8px 30px rgba(90, 43, 214, .18);
+}
+
+.app-shell[data-theme="dark"] .metric-card,
+.app-shell[data-theme="dark"] .panel,
+.app-shell[data-theme="dark"] .goals-summary,
+.app-shell[data-theme="dark"] .goal-card {
+  border-color: #272b36;
+  background: #131720;
+}
+
+.app-shell[data-theme="dark"] .metric-value,
+.app-shell[data-theme="dark"] .category-label strong,
+.app-shell[data-theme="dark"] .panel-footnote strong,
+.app-shell[data-theme="dark"] .goal-title-wrap strong,
+.app-shell[data-theme="dark"] .goal-values strong,
+.app-shell[data-theme="dark"] .transaction-main strong,
+.app-shell[data-theme="dark"] .goals-summary strong,
+.app-shell[data-theme="dark"] .goal-card-amounts strong {
+  color: #f0eff8;
+}
+
+.app-shell[data-theme="dark"] .metric-icon.positive {
+  color: #58f0b0;
+  background: #152b27;
+}
+
+.app-shell[data-theme="dark"] .metric-icon.negative {
+  color: #ff8296;
+  background: #2c1b27;
+}
+
+.app-shell[data-theme="dark"] .spending-panel {
+  border-color: rgba(49, 226, 205, .35);
+  box-shadow: 0 0 22px rgba(39, 217, 202, .06);
+}
+
+.app-shell[data-theme="dark"] .goals-panel {
+  border-color: rgba(154, 111, 255, .31);
+}
+
+.app-shell[data-theme="dark"] .recent-panel {
+  border-color: #292d38;
+}
+
+.app-shell[data-theme="dark"] .bar-track,
+.app-shell[data-theme="dark"] .goal-track,
+.app-shell[data-theme="dark"] .level-track {
+  background: #292d38;
+}
+
+.app-shell[data-theme="dark"] .category-label,
+.app-shell[data-theme="dark"] .panel-footnote,
+.app-shell[data-theme="dark"] .goals-summary span {
+  color: #a2a4b2;
+}
+
+.app-shell[data-theme="dark"] .transaction-row,
+.app-shell[data-theme="dark"] .goal-progress,
+.app-shell[data-theme="dark"] .panel-footnote,
+.app-shell[data-theme="dark"] .goal-card-actions,
+.app-shell[data-theme="dark"] .transaction-toolbar,
+.app-shell[data-theme="dark"] .modal-actions {
+  border-color: #292d38;
+}
+
+.app-shell[data-theme="dark"] .transaction-kind.income {
+  color: #56e8ae;
+  background: #152b27;
+}
+
+.app-shell[data-theme="dark"] .transaction-kind.expense {
+  color: #ff8296;
+  background: #2c1b27;
+}
+
+.app-shell[data-theme="dark"] .transaction-amount {
+  color: #ff8296;
+}
+
+.app-shell[data-theme="dark"] .transaction-amount.income-text {
+  color: #56e8ae;
+}
+
+.app-shell[data-theme="dark"] .goal-symbol,
+.app-shell[data-theme="dark"] .goal-card-symbol,
+.app-shell[data-theme="dark"] .panel-icon,
+.app-shell[data-theme="dark"] .empty-icon,
+.app-shell[data-theme="dark"] .tip-icon {
+  background: #221b35;
+}
+
+.app-shell[data-theme="dark"] .goal-symbol-1,
+.app-shell[data-theme="dark"] .goal-card-1 .goal-card-symbol {
+  background: #172a29;
+}
+
+.app-shell[data-theme="dark"] .available-chip {
+  background: #142823;
+}
+
+.app-shell[data-theme="dark"] .available-chip strong {
+  color: #54ebb0;
+}
+
+.app-shell[data-theme="dark"] .goals-summary span {
+  color: #989aa9;
+}
+
+.app-shell[data-theme="dark"] .app-footer {
+  border-color: #252934;
+}
+
+.app-shell[data-theme="dark"] .filter-tab {
+  color: #a0a1af;
+}
+
+.app-shell[data-theme="dark"] .filter-tab:hover,
+.app-shell[data-theme="dark"] .filter-tab.selected {
+  color: #cbbaff;
+  background: #251d3c;
+}
+
+.app-shell[data-theme="dark"] .search-field,
+.app-shell[data-theme="dark"] .icon-button {
+  border-color: #303440;
+  color: #a3a5b2;
+  background: #171a23;
+}
+
+.app-shell[data-theme="dark"] .search-field input {
+  color: #f0eff8;
+}
+
+.app-shell[data-theme="dark"] .search-field input::placeholder {
+  color: #747888;
+}
+
+.app-shell[data-theme="dark"] .button-outline {
+  border-color: #393c48;
+  color: #d3d2df;
+  background: #171a23;
+}
+
+.app-shell[data-theme="dark"] .button-outline:hover {
+  border-color: #7054c8;
+  background: #211b32;
+}
+
+.app-shell[data-theme="dark"] .button-soft {
+  color: #c9b8ff;
+  background: #251d3b;
+}
+
+.app-shell[data-theme="dark"] .text-button,
+.app-shell[data-theme="dark"] .goal-add-link {
+  color: #b69aff;
+}
+
+.app-shell[data-theme="dark"] .empty-state strong {
+  color: #e0deeb;
+}
+
+.app-shell[data-theme="dark"] .notice {
+  border-color: #41366a;
+  color: #e1d8ff;
+  background: #171521;
+}
+
+.app-shell[data-theme="dark"] .modal {
+  border-color: #353342;
+  background: #151720;
+}
+
+.app-shell[data-theme="dark"] .modal-heading h2 {
+  color: #f2f0fa;
+}
+
+.app-shell[data-theme="dark"] .modal-heading p,
+.app-shell[data-theme="dark"] .movement-info {
+  color: #9c9eac;
+}
+
+.app-shell[data-theme="dark"] .movement-info {
+  background: #1d202a;
+}
+
+.app-shell[data-theme="dark"] .movement-info strong {
+  color: #e4e2ef;
+}
+
+.app-shell[data-theme="dark"] .form-field {
+  color: #d4d2df;
+}
+
+.app-shell[data-theme="dark"] .form-field input,
+.app-shell[data-theme="dark"] .form-field select,
+.app-shell[data-theme="dark"] .currency-input {
+  border-color: #343744;
+  color: #eceaf5;
+  background: #10131a;
+}
+
+.app-shell[data-theme="dark"] .form-field input::placeholder {
+  color: #737685;
+}
+
+.app-shell[data-theme="dark"] .type-switch {
+  background: #20232d;
+}
+
+.app-shell[data-theme="dark"] .type-option.selected {
+  background: #141720;
+}
+
+.app-shell[data-theme="light"] {
+  background: #f5f4fb;
+}
+
+.app-shell[data-theme="light"] .page-content {
+  background: #f5f4fb;
+}
+
+.app-shell[data-theme="light"] .level-card {
+  border-color: #ded5ff;
+  background: linear-gradient(140deg, #f8f6ff, #edfffa);
+}
+
+.app-shell[data-theme="light"] .theme-toggle {
+  border-color: #dcd6ed;
+  color: #5536bd;
+  background: #fff;
+}
+
+@media (max-width: 760px) {
+  .app-shell[data-theme="dark"] .sidebar {
+    border-color: #282b35;
+    background: #101219;
   }
 }

@@ -1,0 +1,8 @@
+.modal-backdrop {
+  overscroll-behavior: contain;
+}
+
+.modal {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}

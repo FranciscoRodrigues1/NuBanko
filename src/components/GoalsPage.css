@@ -1,0 +1,23 @@
+.goals-summary {
+  margin-top: 0;
+}
+
+.goals-summary dt,
+.goals-summary dd {
+  margin: 0;
+}
+
+.goals-summary > div {
+  display: grid;
+  gap: 4px;
+}
+
+.goal-card-amounts {
+  padding: 0;
+  border: 0;
+}
+
+.goal-card-symbol {
+  display: grid;
+  place-items: center;
+}

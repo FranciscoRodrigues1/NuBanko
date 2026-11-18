@@ -5,12 +5,6 @@ import MetricCard from "./MetricCard.jsx";
 import TransactionRow from "./TransactionRow.jsx";
 import "./Dashboard.css";
 
-const achievements = [
-  { emoji: "🌱", title: "Primeiro passo", description: "Fez seu primeiro depósito", unlocked: true },
-  { emoji: "⚡", title: "No seu ritmo", description: "Guardou em 3 dias", unlocked: true },
-  { emoji: "🏆", title: "Meta desbloqueada", description: "Concluiu uma Caixinha", unlocked: false },
-];
-
 export default function Dashboard({
   totals,
   monthIncome,
@@ -18,6 +12,8 @@ export default function Dashboard({
   chartItems,
   maxCategoryExpense,
   goals,
+  savingsLevel,
+  available,
   transactions,
   onAdd,
   onAddGoal,
@@ -37,13 +33,12 @@ export default function Dashboard({
   const remaining = featuredGoal
     ? Math.max(0, featuredGoal.target - featuredGoal.saved)
     : 0;
-  const weeklyTarget = 200;
-  const weeklySaved = Math.min(weeklyTarget, Math.max(0, totals.reserved * 0.12));
-  const weeklyProgress = Math.round((weeklySaved / weeklyTarget) * 100);
-  const history = [42, 47, 46, 58, 62, 68, 74].map((height, index) => ({
-    height,
-    label: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"][index],
-  }));
+  const achievements = [
+    { emoji: "🧭", title: "Sonho escolhido", description: "Você definiu uma meta pessoal", unlocked: goals.length > 0 },
+    { emoji: "🌱", title: "Primeiro passo", description: "Você já começou a guardar", unlocked: totals.reserved > 0 },
+    { emoji: "🏆", title: "Meta realizada", description: "Você concluiu um objetivo seu", unlocked: goals.some((goal) => goal.saved >= goal.target) },
+  ];
+  const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked).length;
 
   return (
     <>
@@ -103,14 +98,14 @@ export default function Dashboard({
         </article>
 
         <article className="weekly-dream">
-          <p className="dream-kicker">DESAFIO DA SEMANA <span className="challenge-bolt">⚡</span></p>
-          <h2>{weeklyProgress >= 100 ? "Desafio concluído!" : "Pequenos depósitos, grandes sonhos."}</h2>
-          <p>{weeklyProgress >= 100 ? "Você fez do seu jeito. Curta essa conquista!" : "Junte R$ 200 até domingo. Qualquer valor ajuda."}</p>
-          <div className="challenge-value"><strong>{money.format(weeklySaved)}</strong><span>de {money.format(weeklyTarget)}</span></div>
-          <div className="challenge-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={weeklyProgress}>
-            <span style={{ width: `${weeklyProgress}%` }} />
-          </div>
-          <div className="challenge-footer"><span>{weeklyProgress}% do desafio</span><span>Sem pressa, no seu ritmo.</span></div>
+          <p className="dream-kicker">DESAFIO OPCIONAL <span className="challenge-bolt" aria-hidden="true">⚡</span></p>
+          <h2>Seu próximo passo, no seu ritmo.</h2>
+          <p>{featuredGoal ? `Se fizer sentido hoje, avance um pouquinho em “${featuredGoal.name}”. Pausar também faz parte do plano.` : "Escolha um objetivo que combine com você. Sem valor mínimo ou prazo obrigatório."}</p>
+          <button className="dream-save-button" type="button" disabled={featuredGoal && available <= 0} onClick={featuredGoal ? onQuickSave : onAddGoal}>
+            <Icon name={featuredGoal ? "plus" : "target"} size={18} />
+            {featuredGoal ? "Guardar qualquer valor" : "Escolher meu objetivo"}
+          </button>
+          {featuredGoal && available <= 0 && <p className="challenge-note">Sem saldo livre agora? Tudo bem. Seu plano continua aqui.</p>}
         </article>
       </section>
 
@@ -154,18 +149,20 @@ export default function Dashboard({
 
       <section className="journey-grid">
         <article className="panel evolution-panel">
-          <header className="panel-heading"><div><h2>Sua evolução</h2><p>Olha só o caminho que você já fez</p></div><span className="chart-period">7 DIAS</span></header>
-          <strong className="evolution-total">{money.format(totals.reserved)}</strong>
-          <div className="evolution-chart" aria-label="Evolução da economia nos últimos sete dias">
-            {history.map((point) => (
-              <div className="evolution-column" key={point.label}><span style={{ height: `${point.height}%` }} /><small>{point.label}</small></div>
-            ))}
+          <header className="panel-heading"><div><h2>Sua evolução</h2><p>Níveis simbólicos, sem prazo ou comparação</p></div><span className="chart-period">NO SEU TEMPO</span></header>
+          <div className="evolution-level">
+            <span className="evolution-level-icon" aria-hidden="true">⚡</span>
+            <div><small>NÍVEL {savingsLevel.level}</small><strong>{savingsLevel.title}</strong></div>
+            <span className="evolution-level-badge">Nv. {savingsLevel.level}</span>
           </div>
-          <p className="evolution-feedback">Cada real conta. Seu hábito está ficando mais forte!</p>
+          <div className="evolution-progress" role="progressbar" aria-label="Progresso simbólico para o próximo nível" aria-valuemin="0" aria-valuemax="100" aria-valuenow={savingsLevel.progress}>
+            <span style={{ width: `${savingsLevel.progress}%` }} />
+          </div>
+          <p className="evolution-feedback">{savingsLevel.next ? "Cada passo conta. Continue apenas quando couber no seu momento." : "Todos os níveis desbloqueados. Seu caminho continua sendo só seu."}</p>
         </article>
 
         <article className="panel achievement-panel">
-          <header className="panel-heading"><div><h2>Conquistas</h2><p>Cada passo seu merece ser visto</p></div><span className="achievement-count">2/3</span></header>
+          <header className="panel-heading"><div><h2>Conquistas</h2><p>Recompensas simbólicas, sem competição</p></div><span className="achievement-count">{unlockedAchievements}/{achievements.length}</span></header>
           <div className="achievement-list">
             {achievements.map((achievement) => (
               <div className={`achievement-item${achievement.unlocked ? " unlocked" : ""}`} key={achievement.title}>

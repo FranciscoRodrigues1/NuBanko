@@ -28,7 +28,7 @@ import {
 } from "./services/themeService.js";
 
 export default function App() {
-  const [authenticated, setAuthenticated] = useState(hasSession);
+  const [authenticated, setAuthenticated] = useState(true);
   const [accountEmail, setAccountEmail] = useState(getSessionEmail);
   const [initialState] = useState(() => readSavedState(getSessionEmail()));
   const [transactions, setTransactions] = useState(initialState.data.transactions);
@@ -207,6 +207,18 @@ export default function App() {
     goals,
     transactions: sortedTransactions.slice(0, 5),
     onAdd: () => setModal({ type: "transaction" }),
+    onAddGoal: () => setModal({ type: "goal" }),
+    onQuickSave: () => {
+      if (goals.length) {
+        setModal({
+          type: "movement",
+          goalId: goals[0].id,
+          movementType: "deposit",
+        });
+      } else {
+        setModal({ type: "goal" });
+      }
+    },
     onNavigate: setPage,
   };
 

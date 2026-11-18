@@ -7,7 +7,6 @@ import Main from "./components/Main.jsx";
 import {
   endSession,
   getSessionEmail,
-  hasSession,
 } from "./services/authService.js";
 import {
   addGoal,
@@ -18,7 +17,6 @@ import {
   getTotals,
   moveGoal,
   readSavedState,
-  roundMoney,
   saveState,
   saveTransaction,
 } from "./services/financeService.js";
@@ -58,6 +56,10 @@ export default function App() {
   const totals = useMemo(
     () => getTotals(transactions, goals),
     [transactions, goals],
+  );
+  const savingsLevel = useMemo(
+    () => getSavingsLevel(totals.reserved),
+    [totals.reserved],
   );
   const monthSummary = useMemo(
     () => getMonthSummary(transactions),
@@ -205,6 +207,8 @@ export default function App() {
     chartItems: monthSummary.chartItems,
     maxCategoryExpense: monthSummary.maxCategoryExpense,
     goals,
+    savingsLevel,
+    available: totals.available,
     transactions: sortedTransactions.slice(0, 5),
     onAdd: () => setModal({ type: "transaction" }),
     onAddGoal: () => setModal({ type: "goal" }),
@@ -239,7 +243,7 @@ export default function App() {
         onToggleTheme={() =>
           setTheme((current) => (current === "dark" ? "light" : "dark"))
         }
-        savingsLevel={getSavingsLevel(totals.reserved)}
+        savingsLevel={savingsLevel}
       />
       <div className="main-content">
         <Main

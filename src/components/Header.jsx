@@ -43,7 +43,7 @@ export default function Header({ page, onNavigate, onLogout, theme, onToggleThem
           <span className="level-track" role="progressbar" aria-label="Progresso para o próximo nível" aria-valuenow={savingsLevel.progress} aria-valuemin="0" aria-valuemax="100">
             <span style={{ width: `${savingsLevel.progress}%` }} />
           </span>
-          <span className="level-caption">{savingsLevel.next ? `Próximo nível em R$ ${savingsLevel.next.toLocaleString("pt-BR")}` : "Nível máximo alcançado!"}</span>
+          <span className="level-caption">{savingsLevel.next ? "Progresso simbólico, sem prazo." : "Todos os níveis alcançados!"}</span>
         </aside>
         <section className="sidebar-bottom">
           <aside className="sidebar-tip">

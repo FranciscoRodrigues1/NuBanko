@@ -1,0 +1,7 @@
+.movement-info {
+  gap: 12px;
+}
+
+.movement-info strong {
+  text-align: right;
+}

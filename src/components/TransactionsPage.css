@@ -1,0 +1,7 @@
+.transaction-toolbar {
+  flex-wrap: wrap;
+}
+
+.transaction-list {
+  width: 100%;
+}

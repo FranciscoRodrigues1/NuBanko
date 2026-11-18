@@ -1,0 +1,14 @@
+.transaction-form fieldset {
+  min-width: 0;
+  margin: 0;
+}
+
+.transaction-form .type-switch {
+  padding: 4px;
+  border: 0;
+}
+
+.transaction-form .form-grid {
+  padding: 0;
+  border: 0;
+}

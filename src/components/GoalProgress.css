@@ -1,0 +1,47 @@
+.goal-progress-bar {
+  display: block;
+  width: 100%;
+  appearance: none;
+  border: 0;
+}
+
+.goal-progress-bar::-webkit-progress-bar {
+  border-radius: 8px;
+  background: #f0eff5;
+}
+
+.goal-progress-bar::-webkit-progress-value {
+  border-radius: 8px;
+  background: #795ce5;
+}
+
+.goal-progress-bar.goal-fill-1::-webkit-progress-value {
+  background: #4bb39b;
+}
+
+.goal-progress-bar::-moz-progress-bar {
+  border-radius: 8px;
+  background: #795ce5;
+}
+
+.goal-progress-bar.goal-fill-1::-moz-progress-bar {
+  background: #4bb39b;
+}
+
+.app-shell[data-theme="dark"] .goal-progress-bar::-webkit-progress-bar {
+  background: #292d38;
+}
+
+.app-shell[data-theme="dark"] .goal-progress-bar {
+  background: #292d38;
+}
+
+.goal-symbol,
+.goal-card-symbol {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.goal-symbol {
+  justify-content: center;
+}

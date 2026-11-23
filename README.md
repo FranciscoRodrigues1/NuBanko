@@ -56,6 +56,7 @@ A aplicação possui as seguintes funcionalidades:
 - Avisos e confirmações de ações.
 - Indicadores visuais de progresso.
 - Elementos de gamificação.
+- Busca opcional na internet para perguntas sobre termos gerais no assistente Nubi.
 
 ## 4. Tecnologias utilizadas
 
@@ -70,6 +71,7 @@ As tecnologias efetivamente utilizadas no desenvolvimento são:
 | CSS3 | Estilização e responsividade |
 | NPM | Gerenciamento de dependências |
 | Web Crypto API | Derivação de hashes de senhas |
+| Node.js e Brave Search API | Busca externa de termos por uma função de servidor |
 
 ## 5. Arquitetura e armazenamento
 
@@ -82,7 +84,7 @@ Os dados são armazenados localmente no navegador, utilizando:
 
 A persistência local permite que os dados financeiros continuem disponíveis após fechar e abrir o navegador, desde que sejam utilizados o mesmo navegador e perfil e que seus dados não sejam apagados.
 
-**Importante:** o projeto não possui backend, banco de dados externo ou sincronização em nuvem. Também não foram implementadas integrações com Make ou Google Planilhas.
+**Importante:** as contas e os dados financeiros continuam locais; não há banco de dados nem sincronização em nuvem. A busca externa é opcional e usa apenas o termo perguntado, sem enviar os dados financeiros da conta. A função de busca deve ser hospedada como endpoint de servidor (por exemplo, Vercel Functions); o restante da aplicação continua sendo uma SPA.
 
 ## 6. Requisitos para execução
 
@@ -120,9 +122,12 @@ Se for necessário utilizar a conta demonstrativa configurada pelo projeto, crie
 ```env
 VITE_DEMO_EMAIL=seu-email-demonstrativo
 VITE_DEMO_PASSWORD=sua-senha-demonstrativa
+BRAVE_SEARCH_API_KEY=sua-chave-da-brave-search
 ```
 
-Essas variáveis são opcionais para o funcionamento das contas cadastradas localmente. Os valores devem ser apenas demonstrativos, nunca credenciais reais.
+As variáveis `VITE_DEMO_*` são opcionais para contas cadastradas localmente. Para habilitar a busca externa, configure uma chave da Brave Search API em `BRAVE_SEARCH_API_KEY`. Essa variável não deve ter o prefixo `VITE_`, pois a chave precisa permanecer no servidor. Sem ela, o chatbot mantém as respostas locais e informa quando não pode pesquisar.
+
+No desenvolvimento, `npm run dev` disponibiliza o endpoint por meio do middleware do Vite. Em produção, configure `BRAVE_SEARCH_API_KEY` no provedor de hospedagem e publique a função `api/search.js` como endpoint serverless. Hospedagens somente estáticas precisam de um endpoint equivalente.
 
 ### 5. Iniciar a aplicação
 

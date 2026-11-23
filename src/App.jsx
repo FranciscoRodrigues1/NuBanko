@@ -16,7 +16,6 @@ import {
   getMonthSummary,
   getSavingsLevel,
   getTotals,
-  clearSavedStates,
   moveGoal,
   money,
   readSavedState,
@@ -38,7 +37,6 @@ export default function App() {
   const [accountEmail, setAccountEmail] = useState(null);
   const [initialState] = useState(() => {
     endSession();
-    clearSavedStates();
     return readSavedState(null);
   });
   const [initialProfile] = useState(() =>

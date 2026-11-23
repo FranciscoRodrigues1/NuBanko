@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import ConfettiCelebration from "./components/ConfettiCelebration.jsx";
+import AssistantAgent from "./components/AssistantAgent.jsx";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import Login from "./components/Login.jsx";
@@ -16,28 +17,42 @@ import {
   getSavingsLevel,
   getTotals,
   moveGoal,
+  money,
   readSavedState,
   saveState,
   saveTransaction,
+  transferGoal,
 } from "./services/financeService.js";
 import {
   readThemePreference,
   saveThemePreference,
 } from "./services/themeService.js";
+import {
+  readProfilePreference,
+  saveProfilePreference,
+} from "./services/profileService.js";
 
 export default function App() {
-  const [authenticated, setAuthenticated] = useState(true);
-  const [accountEmail, setAccountEmail] = useState(getSessionEmail);
-  const [initialState] = useState(() => readSavedState(getSessionEmail()));
+  const [authenticated, setAuthenticated] = useState(false);
+  const [accountEmail, setAccountEmail] = useState(null);
+  const [initialState] = useState(() => {
+    endSession();
+    return readSavedState(null);
+  });
+  const [initialProfile] = useState(() =>
+    readProfilePreference(getSessionEmail()),
+  );
   const [transactions, setTransactions] = useState(initialState.data.transactions);
   const [goals, setGoals] = useState(initialState.data.goals);
   const [page, setPage] = useState("home");
   const [modal, setModal] = useState(null);
-  const [notice, setNotice] = useState(initialState.error);
+  const [notice, setNotice] = useState(initialState.error || initialProfile.error);
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [theme, setTheme] = useState(readThemePreference);
+  const [profileAvatarId, setProfileAvatarId] = useState(initialProfile.avatarId);
   const [celebration, setCelebration] = useState(null);
+  const [nubiActivity, setNubiActivity] = useState(null);
 
   useEffect(() => {
     if (!authenticated) return;
@@ -87,14 +102,34 @@ export default function App() {
     window.setTimeout(() => setNotice(""), 4500);
   }
 
+  function notifyNubi(message) {
+    setNubiActivity((current) => ({
+      id: (current?.id ?? 0) + 1,
+      text: message,
+    }));
+  }
+
   function handleLogin() {
     const email = getSessionEmail();
     const saved = readSavedState(email);
+    const profile = readProfilePreference(email);
     setAccountEmail(email);
     setTransactions(saved.data.transactions);
     setGoals(saved.data.goals);
-    setNotice(saved.error);
+    setProfileAvatarId(profile.avatarId);
+    setNotice(saved.error || profile.error);
     setAuthenticated(true);
+  }
+
+  function handleAvatarSelect(avatarId) {
+    try {
+      saveProfilePreference(avatarId, accountEmail);
+      setProfileAvatarId(avatarId);
+      showNotice("Avatar atualizado.");
+    } catch (error) {
+      console.error("Não foi possível salvar o avatar do perfil.", error);
+      showNotice("Não foi possível salvar o avatar neste navegador.");
+    }
   }
 
   function handleLogout() {
@@ -117,6 +152,15 @@ export default function App() {
     }
     setTransactions(result.transactions);
     setModal(null);
+    const description = values.description.trim();
+    const amount = money.format(values.amount);
+    notifyNubi(
+      modal?.transaction
+        ? `Atualizei "${description}" para ${amount}. Seu resumo já está em dia.`
+        : values.type === "income"
+          ? `Entrada de ${amount} anotada em "${description}". Seus números já foram atualizados.`
+          : `Despesa de ${amount} anotada em "${description}". Agora ela também aparece no seu resumo.`,
+    );
     showNotice(
       modal?.transaction
         ? "Movimentação atualizada."
@@ -138,12 +182,16 @@ export default function App() {
       return;
     }
     setTransactions(result.transactions);
+    notifyNubi(
+      `A movimentação "${transaction.description}" foi excluída. Seu saldo disponível já foi recalculado.`,
+    );
     showNotice("Movimentação excluída.");
   }
 
   function handleSaveGoal(values) {
     setGoals((current) => addGoal(current, values));
     setModal(null);
+    notifyNubi(`Caixinha "${values.name}" criada. Você pode avançar nela no seu ritmo.`);
     showNotice("Caixinha criada.");
   }
 
@@ -161,6 +209,8 @@ export default function App() {
         showNotice("O valor do depósito supera seu saldo disponível.");
       } else if (result.reason === "insufficient-goal-balance") {
         showNotice("O valor da retirada supera o saldo desta Caixinha.");
+      } else {
+        showNotice("Não encontrei essa Caixinha ou o valor informado não é válido.");
       }
       return false;
     }
@@ -168,6 +218,11 @@ export default function App() {
     const updatedGoal = result.goals.find((goal) => goal.id === goalId);
     setGoals(result.goals);
     setModal(null);
+    notifyNubi(
+      movementType === "deposit"
+        ? `${money.format(amount)} adicionados à Caixinha "${updatedGoal.name}". Um passo de cada vez!`
+        : `Retirada de ${money.format(amount)} registrada na Caixinha "${updatedGoal.name}". Seu saldo livre foi atualizado.`,
+    );
 
     if (
       movementType === "deposit" &&
@@ -193,7 +248,54 @@ export default function App() {
       return;
     }
     setGoals((current) => deleteGoal(current, goal.id));
+    notifyNubi(
+      `A Caixinha "${goal.name}" foi removida. O valor guardado voltou para o saldo livre.`,
+    );
     showNotice("Caixinha excluída.");
+  }
+
+  function executeAssistantAction(action) {
+    if (action.type === "goal-movement") {
+      return handleMoveGoal(
+        action.goalId,
+        action.movementType,
+        action.amount,
+      );
+    }
+
+    if (action.type === "record-transaction") {
+      return handleSaveTransaction(action.values);
+    }
+
+    if (action.type === "goal-transfer") {
+      const sourceGoal = goals.find((goal) => goal.id === action.sourceGoalId);
+      const destinationGoal = goals.find((goal) => goal.id === action.destinationGoalId);
+      const result = transferGoal(
+        goals,
+        action.sourceGoalId,
+        action.destinationGoalId,
+        action.amount,
+      );
+      if (!result.ok) {
+        showNotice(
+          result.reason === "insufficient-goal-balance"
+            ? "O valor supera o saldo da Caixinha de origem."
+            : "Não foi possível localizar as Caixinhas para fazer a transferência.",
+        );
+        return false;
+      }
+
+      setGoals(result.goals);
+      setModal(null);
+      notifyNubi(
+        `${money.format(action.amount)} transferidos de "${sourceGoal.name}" para "${destinationGoal.name}".`,
+      );
+      showNotice("Transferência entre Caixinhas realizada.");
+      return true;
+    }
+
+    showNotice("Não reconheci essa operação. Nenhum dado foi alterado.");
+    return false;
   }
 
   if (!authenticated) {
@@ -244,6 +346,8 @@ export default function App() {
           setTheme((current) => (current === "dark" ? "light" : "dark"))
         }
         savingsLevel={savingsLevel}
+        profileAvatarId={profileAvatarId}
+        onAvatarSelect={handleAvatarSelect}
       />
       <div className="main-content">
         <Main
@@ -284,6 +388,12 @@ export default function App() {
         />
         <Footer />
       </div>
+      <AssistantAgent
+        context={{ totals, monthSummary, goals, savingsLevel }}
+        activity={nubiActivity}
+        onNavigate={setPage}
+        onExecuteAction={executeAssistantAction}
+      />
       {celebration && (
         <ConfettiCelebration
           key={celebration.id}

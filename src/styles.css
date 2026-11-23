@@ -53,7 +53,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .demo-pill .inline-content { width: 7px; height: 7px; border-radius: 50%; background: #55bd8d; box-shadow: 0 0 0 3px #e6f7ef; }
 .top-avatar { width: 32px; height: 32px; }
 .mobile-brand { display: none; }
-.page-content { width: min(100%, 1260px); margin: 0 auto; padding: 34px 42px 45px; flex: 1; }
+.page-content { width: min(100%, 1260px); margin: 0 auto; padding: 34px 42px 45px; display: flex; flex-direction: column; row-gap: 28px; flex: 1; }
 .page-section { display: grid; gap: 17px; }
 .dashboard-page > .page-heading, .goals-page > .page-heading { margin-bottom: 8px; }
 .dashboard-page > .dashboard-grid, .dashboard-page > .recent-panel { margin-top: 0; }
@@ -61,7 +61,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .transactions-page > .page-heading { margin-bottom: 0; }
 .goals-page > .goals-summary { margin-bottom: 0; }
 .goals-page > .goals-note { margin-top: 0; }
-.page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 25px; }
+.page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 0; }
 .eyebrow { margin: 0 0 8px; color: #9c97ac; font-size: 10px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; }
 h1, h2, p { margin-top: 0; }
 h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-serif; letter-spacing: -.8px; }
@@ -75,8 +75,8 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .button-soft { color: #6449c7; background: #f0ecff; }
 .button-soft:hover { background: #e6e0ff; }
 .button:disabled { cursor: not-allowed; opacity: .48; transform: none; }
-.overview-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 16px; }
-.balance-card { position: relative; overflow: hidden; min-height: 177px; padding: 20px 21px 17px; border-radius: 15px; color: #fff; background: linear-gradient(125deg, #7356df 0%, #6545cf 58%, #5639bd 100%); box-shadow: 0 9px 24px rgba(89,61,189,.16); }
+.overview-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.balance-card { position: relative; overflow: hidden; min-height: 160px; padding: 17px 18px 15px; border-radius: 15px; color: #fff; background: linear-gradient(125deg, #7356df 0%, #6545cf 58%, #5639bd 100%); box-shadow: 0 9px 24px rgba(89,61,189,.16); }
 .balance-card-top { position: relative; z-index: 1; display: flex; justify-content: space-between; }
 .card-kicker { display: block; color: rgba(255,255,255,.76); font-size: 9px; font-weight: 700; letter-spacing: 1px; }
 .balance-label { display: block; margin-top: 5px; color: rgba(255,255,255,.68); font-size: 10px; }
@@ -87,7 +87,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .balance-orb { position: absolute; border: 1px solid rgba(255,255,255,.09); border-radius: 50%; }
 .orb-one { right: -54px; bottom: -132px; width: 235px; height: 235px; }
 .orb-two { right: -13px; bottom: -100px; width: 165px; height: 165px; }
-.metric-card { min-width: 0; min-height: 177px; padding: 19px 19px 16px; border: 1px solid #eeedf3; border-radius: 15px; background: #fff; }
+.metric-card { min-width: 0; min-height: 160px; padding: 17px 18px 15px; border: 1px solid #eeedf3; border-radius: 15px; background: #fff; }
 .metric-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 17px; }
 .metric-icon { display: grid; width: 33px; height: 33px; place-items: center; border-radius: 10px; }
 .metric-icon.positive { color: #27a77b; background: #e9f8f1; }
@@ -96,7 +96,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .metric-label { display: block; color: #898698; font-size: 10px; }
 .metric-value { display: block; overflow: hidden; margin: 5px 0 7px; color: #302d42; font: 700 19px "Segoe UI", Arial, sans-serif; letter-spacing: -.45px; text-overflow: ellipsis; white-space: nowrap; }
 .metric-caption { color: #aaa7b4; font-size: 9px; }
-.dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-top: 17px; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 0; }
 .panel { min-width: 0; padding: 19px 20px; border: 1px solid #eeedf3; border-radius: 14px; background: #fff; }
 .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .panel-heading h2 { margin: 0 0 5px; color: #373448; font: 700 13px "Segoe UI", Arial, sans-serif; }
@@ -140,7 +140,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .goal-values { display: flex; justify-content: space-between; color: #9693a1; font-size: 9px; }
 .goal-values strong { color: #666275; font-weight: 600; }
 .goal-add-link { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto; padding: 13px 0 0; border: 0; color: #7153d6; background: none; font-size: 10px; font-weight: 700; }
-.recent-panel { margin-top: 17px; padding-bottom: 5px; }
+.recent-panel { margin-top: 0; padding-bottom: 5px; }
 .recent-heading { align-items: center; margin-bottom: 10px; }
 .recent-list, .transaction-list { display: grid; }
 .transaction-row { display: flex; align-items: center; gap: 11px; min-width: 0; min-height: 58px; border-bottom: 1px solid #f2f0f5; }
@@ -186,7 +186,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .summary-spacer { flex: 1; }
 .available-chip { padding: 8px 12px; border-radius: 9px; background: #f3fbf7; }
 .available-chip strong { color: #249b70; font-size: 13px; }
-.goal-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.goal-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .goal-card { min-width: 0; padding: 19px 20px; border: 1px solid #eeedf3; border-radius: 14px; background: #fff; }
 .goal-card-top { display: flex; align-items: center; justify-content: space-between; }
 .goal-card-symbol { display: grid; width: 41px; height: 41px; place-items: center; border-radius: 12px; color: #7656dc; background: #f0ecff; }
@@ -254,8 +254,8 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
   .demo-pill .inline-content { width: 8px; height: 8px; }
   .topbar-right { gap: 10px; }
   .top-avatar { width: 29px; height: 29px; }
-  .page-content { padding: 25px 17px 26px; }
-  .page-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 19px; }
+  .page-content { padding: 25px 17px 26px; row-gap: 20px; }
+  .page-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 0; }
   h1 { font-size: 24px; }
   .page-heading .button { width: 100%; }
   .overview-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -263,9 +263,9 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
   .metric-card { min-height: 151px; padding: 14px 12px; }
   .metric-top { margin-bottom: 13px; }
   .metric-value { font-size: 16px; }
-  .dashboard-grid { gap: 11px; margin-top: 11px; }
+  .dashboard-grid { gap: 11px; margin-top: 0; }
   .panel { padding: 16px 14px; }
-  .recent-panel { margin-top: 11px; }
+  .recent-panel { margin-top: 0; }
   .recent-heading { align-items: flex-start; }
   .recent-heading .text-button { max-width: 95px; white-space: normal; text-align: right; }
   .transaction-row { gap: 8px; min-height: 55px; }
@@ -361,8 +361,8 @@ body {
 .button-outline { border-color: #ded8eb; color: #554a70; }
 .button-outline:hover { border-color: #bfb0ec; background: #f7f3ff; }
 
-.overview-grid { gap: 14px; }
-.dashboard-grid { gap: 14px; }
+.overview-grid { gap: 24px; }
+.dashboard-grid { gap: 24px; }
 .balance-card {
   border: 1px solid rgba(255, 255, 255, .2);
   border-radius: 20px;
@@ -1117,4 +1117,704 @@ body {
     border-color: #282b35;
     background: #101219;
   }
+}
+
+/* Neon urbano: roxo elétrico, verde-limão e azul */
+:root {
+  --neon-purple: #9b6cff;
+  --neon-lime: #cfff55;
+  --neon-blue: #4bd8ff;
+  --neon-violet: #7447ed;
+}
+
+.app-shell[data-theme="dark"] .page-content {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(75, 216, 255, .07), transparent 23rem),
+    radial-gradient(circle at 12% 68%, rgba(207, 255, 85, .045), transparent 22rem),
+    #0c0e14;
+  background-attachment: fixed;
+}
+
+.app-shell[data-theme="dark"] .brand-mark,
+.app-shell[data-theme="light"] .brand-mark {
+  color: #25163e;
+  background: linear-gradient(135deg, var(--neon-lime), #73eff5);
+  box-shadow: 0 0 18px rgba(207, 255, 85, .24);
+}
+
+.app-shell[data-theme="dark"] .brand-light {
+  color: var(--neon-lime);
+}
+
+.app-shell[data-theme="dark"] .nav-item.active,
+.app-shell[data-theme="dark"] .filter-tab.selected {
+  color: #dfffa1;
+  border: 1px solid rgba(207, 255, 85, .2);
+  background: linear-gradient(135deg, rgba(207, 255, 85, .13), rgba(75, 216, 255, .08));
+  box-shadow: inset 3px 0 0 var(--neon-lime);
+}
+
+.app-shell[data-theme="dark"] .nav-indicator {
+  background: var(--neon-lime);
+  box-shadow: 0 0 12px rgba(207, 255, 85, .7);
+}
+
+.app-shell[data-theme="dark"] .level-card {
+  border-color: rgba(75, 216, 255, .22);
+  background: linear-gradient(145deg, rgba(155, 108, 255, .12), rgba(75, 216, 255, .06));
+}
+
+.app-shell[data-theme="dark"] .level-track > span {
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue), var(--neon-lime));
+  box-shadow: 0 0 12px rgba(207, 255, 85, .5);
+}
+
+.app-shell[data-theme="dark"] .button-primary {
+  color: #24163e;
+  background: linear-gradient(115deg, var(--neon-lime), #9cf3ae);
+  box-shadow: 0 8px 22px rgba(207, 255, 85, .14);
+}
+
+.app-shell[data-theme="dark"] .button-primary:hover {
+  color: #171126;
+  background: linear-gradient(115deg, #dcff82, #78eeb4);
+  box-shadow: 0 10px 26px rgba(207, 255, 85, .2);
+}
+
+.app-shell[data-theme="dark"] h1 span,
+.app-shell[data-theme="dark"] .page-heading h1 span {
+  color: var(--neon-lime);
+  text-shadow: 0 0 22px rgba(207, 255, 85, .16);
+}
+
+.app-shell[data-theme="dark"] .balance-card {
+  border-color: rgba(75, 216, 255, .38);
+  background: linear-gradient(125deg, #713eff 0%, #4b29bd 58%, #1f69b9 100%);
+  box-shadow: 0 16px 38px rgba(59, 39, 197, .24), inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+.app-shell[data-theme="dark"] .metric-card,
+.app-shell[data-theme="dark"] .panel,
+.app-shell[data-theme="dark"] .goals-summary,
+.app-shell[data-theme="dark"] .goal-card {
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .16);
+}
+
+.app-shell[data-theme="dark"] .metric-card:hover,
+.app-shell[data-theme="dark"] .panel:hover,
+.app-shell[data-theme="dark"] .goal-card:hover {
+  border-color: rgba(155, 108, 255, .48);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, .22), 0 0 18px rgba(155, 108, 255, .06);
+}
+
+.app-shell[data-theme="dark"] .bar-fill::-webkit-progress-value,
+.app-shell[data-theme="dark"] .goal-fill::-webkit-progress-value,
+.app-shell[data-theme="dark"] .evolution-progress > span {
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue), var(--neon-lime));
+  box-shadow: 0 0 10px rgba(75, 216, 255, .24);
+}
+
+.app-shell[data-theme="dark"] .achievement-item.unlocked {
+  border-color: rgba(207, 255, 85, .24);
+  background: linear-gradient(135deg, #201a30, #172029);
+}
+
+.app-shell[data-theme="dark"] .achievement-check {
+  color: #1b1a27;
+  background: var(--neon-lime);
+  box-shadow: 0 0 13px rgba(207, 255, 85, .32);
+}
+
+.app-shell[data-theme="dark"] .featured-dream,
+.app-shell[data-theme="dark"] .featured-goal {
+  border: 1px solid rgba(207, 255, 85, .2);
+  background: linear-gradient(135deg, #321761 0%, #5923bd 58%, #1766a2 100%);
+  box-shadow: 0 18px 42px rgba(42, 28, 94, .28), 0 0 24px rgba(75, 216, 255, .07);
+}
+
+.app-shell[data-theme="dark"] .weekly-dream,
+.app-shell[data-theme="dark"] .weekly-challenge {
+  border: 1px solid rgba(75, 216, 255, .24);
+  background: linear-gradient(135deg, #12315f 0%, #2245a6 52%, #6122bc 100%);
+  box-shadow: 0 18px 42px rgba(20, 52, 120, .28);
+}
+
+.app-shell[data-theme="dark"] .dream-save-button,
+.app-shell[data-theme="dark"] .button-save {
+  color: #24163e;
+  background: linear-gradient(115deg, var(--neon-lime), #93eeb4);
+  box-shadow: 0 8px 18px rgba(207, 255, 85, .13);
+}
+
+.app-shell[data-theme="light"] {
+  --purple: #6843e8;
+  --neon-ink: #25183d;
+}
+
+.app-shell[data-theme="light"] .page-content {
+  background:
+    linear-gradient(rgba(104, 67, 232, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(104, 67, 232, .025) 1px, transparent 1px),
+    #f5f4fb;
+  background-size: 32px 32px;
+}
+
+.app-shell[data-theme="light"] .nav-item.active {
+  color: #2c1a4d;
+  background: linear-gradient(135deg, #dfff86, #bcf0ff);
+  box-shadow: inset 3px 0 0 #7447ed;
+}
+
+.app-shell[data-theme="light"] .button-primary {
+  background: linear-gradient(115deg, #7447ed, #3b87f6);
+  box-shadow: 0 8px 18px rgba(75, 99, 226, .18);
+}
+
+.app-shell[data-theme="light"] .button-primary:hover {
+  background: linear-gradient(115deg, #6540dc, #2477e9);
+}
+
+.app-shell[data-theme="light"] .page-heading h1 span {
+  color: #6843e8;
+  text-shadow: 0 0 16px rgba(207, 255, 85, .35);
+}
+
+.app-shell .eyebrow,
+.app-shell .card-kicker,
+.app-shell .dream-kicker,
+.app-shell .level-card-top {
+  font-size: 12px;
+}
+
+.app-shell .workspace-label,
+.app-shell .level-title,
+.app-shell .level-card-top strong,
+.app-shell .balance-label,
+.app-shell .balance-card-bottom,
+.app-shell .profile-copy strong,
+.app-shell .category-label strong,
+.app-shell .panel-footnote strong,
+.app-shell .goal-title-wrap strong,
+.app-shell .goal-percent,
+.app-shell .goal-values strong,
+.app-shell .transaction-main strong,
+.app-shell .dream-values,
+.app-shell .challenge-footer,
+.app-shell .dream-mini strong,
+.app-shell .evolution-level > div small,
+.app-shell .chart-period,
+.app-shell .achievement-count,
+.app-shell .achievement-item strong,
+.app-shell .goals-summary .inline-content,
+.app-shell .goal-card-amounts .inline-content,
+.app-shell .available-chip strong,
+.app-shell .type-option,
+.app-shell .empty-state strong {
+  font-size: 12px;
+}
+
+.app-shell .heading-copy,
+.app-shell .metric-label,
+.app-shell .metric-period,
+.app-shell .metric-caption,
+.app-shell .panel-heading p,
+.app-shell .category-label,
+.app-shell .panel-footnote,
+.app-shell .goal-title-wrap .inline-content,
+.app-shell .goal-values,
+.app-shell .transaction-main .inline-content,
+.app-shell .transaction-date,
+.app-shell .transaction-amount,
+.app-shell .goal-deadline,
+.app-shell .goal-card-bottom,
+.app-shell .goals-note,
+.app-shell .app-footer,
+.app-shell .demo-pill,
+.app-shell .profile-copy span,
+.app-shell .level-caption,
+.app-shell .dream-subtitle,
+.app-shell .dream-remaining,
+.app-shell .weekly-dream > p:not(.dream-kicker),
+.app-shell .challenge-note,
+.app-shell .dream-mini span,
+.app-shell .next-goal-note,
+.app-shell .evolution-feedback,
+.app-shell .achievement-item small,
+.app-shell .empty-state p,
+.app-shell .chart-day-labels small,
+.app-shell .filter-tab,
+.app-shell .search-field input,
+.app-shell .form-field,
+.app-shell .modal-heading p,
+.app-shell .movement-info,
+.app-shell .form-error,
+.app-shell .text-button,
+.app-shell .goal-add-link {
+  font-size: 13px;
+}
+
+.app-shell .workspace-label,
+.app-shell .level-card-top strong,
+.app-shell .eyebrow,
+.app-shell .dream-kicker,
+.app-shell .card-kicker {
+  letter-spacing: .45px;
+}
+
+.login-page .eyebrow,
+.login-page .login-copy,
+.login-page .login-form .form-field,
+.login-page .login-switch,
+.login-page .login-demo-note p,
+.login-page .login-brand-footer,
+.login-page .login-footer {
+  font-size: 13px;
+}
+
+.login-page .login-intro .eyebrow,
+.login-page .login-card > .eyebrow {
+  font-size: 13px;
+}
+
+.login-page .login-intro-copy > p:last-child {
+  font-size: 16px;
+}
+
+@media (max-width: 390px) {
+  .app-shell .metric-label,
+  .app-shell .transaction-amount {
+    font-size: 12px;
+  }
+}
+
+.app-shell[data-theme="dark"] {
+  --game-cyan: #42e8ff;
+  --game-magenta: #ff4fd8;
+  --game-lime: #cfff55;
+  --game-panel: #111522;
+  --game-border: rgba(91, 126, 179, .24);
+  background: #080a12;
+}
+
+.app-shell[data-theme="dark"] .page-content {
+  background:
+    radial-gradient(ellipse at 82% 4%, rgba(255, 79, 216, .09), transparent 25rem),
+    radial-gradient(ellipse at 9% 42%, rgba(66, 232, 255, .075), transparent 28rem),
+    linear-gradient(rgba(111, 137, 180, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 137, 180, .045) 1px, transparent 1px),
+    #080a12;
+  background-size: auto, auto, 32px 32px, 32px 32px, auto;
+  background-attachment: fixed;
+}
+
+.app-shell[data-theme="dark"] .sidebar {
+  border-color: rgba(66, 232, 255, .19);
+  background: linear-gradient(180deg, #0d111b, #090b12);
+  box-shadow: 8px 0 30px rgba(0, 0, 0, .18);
+}
+
+.app-shell[data-theme="dark"] .topbar {
+  border-color: rgba(66, 232, 255, .16);
+  background: rgba(10, 13, 21, .94);
+  box-shadow: 0 5px 24px rgba(0, 0, 0, .16);
+}
+
+.app-shell[data-theme="dark"] .brand-mark {
+  box-shadow: 0 0 16px rgba(66, 232, 255, .2), 0 0 24px rgba(255, 79, 216, .12);
+}
+
+.app-shell[data-theme="dark"] .nav-item {
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.app-shell[data-theme="dark"] .nav-item:hover {
+  color: var(--game-cyan);
+  background: rgba(66, 232, 255, .07);
+}
+
+.app-shell[data-theme="dark"] .nav-item.active {
+  border-color: rgba(66, 232, 255, .23);
+  color: #e4fcff;
+  background: linear-gradient(100deg, rgba(66, 232, 255, .12), rgba(255, 79, 216, .07));
+  box-shadow: inset 3px 0 0 var(--game-cyan), 0 0 18px rgba(66, 232, 255, .07);
+}
+
+.app-shell[data-theme="dark"] .nav-indicator {
+  background: var(--game-cyan);
+  box-shadow: 0 0 12px rgba(66, 232, 255, .7);
+}
+
+.app-shell[data-theme="dark"] .level-card,
+.app-shell[data-theme="dark"] .sidebar-tip {
+  border-color: rgba(255, 79, 216, .2);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(255, 79, 216, .07), rgba(66, 232, 255, .045));
+}
+
+.app-shell[data-theme="dark"] .level-card-top strong {
+  color: #091017;
+  background: var(--game-cyan);
+  box-shadow: 0 0 12px rgba(66, 232, 255, .25);
+}
+
+.app-shell[data-theme="dark"] .profile-status {
+  box-shadow: 0 0 10px rgba(88, 240, 176, .7);
+}
+
+.app-shell[data-theme="dark"] .balance-card {
+  border-color: rgba(66, 232, 255, .46);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 79, 216, .36), transparent 32%),
+    linear-gradient(125deg, #5625b9 0%, #272c88 54%, #075274 100%);
+  box-shadow: 0 16px 38px rgba(14, 92, 161, .22), 0 0 24px rgba(66, 232, 255, .09);
+}
+
+.app-shell[data-theme="dark"] .metric-card,
+.app-shell[data-theme="dark"] .panel,
+.app-shell[data-theme="dark"] .goals-summary,
+.app-shell[data-theme="dark"] .goal-card {
+  border-color: var(--game-border);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(18, 23, 36, .98), rgba(14, 18, 29, .98));
+}
+
+.app-shell[data-theme="dark"] .metric-card:hover,
+.app-shell[data-theme="dark"] .panel:hover,
+.app-shell[data-theme="dark"] .goal-card:hover {
+  border-color: rgba(66, 232, 255, .4);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .26), 0 0 20px rgba(66, 232, 255, .08);
+}
+
+.app-shell[data-theme="dark"] .panel-heading h2 {
+  color: #f0eff8;
+}
+
+.app-shell[data-theme="dark"] .panel-icon,
+.app-shell[data-theme="dark"] .goal-symbol,
+.app-shell[data-theme="dark"] .goal-card-symbol {
+  border: 1px solid rgba(66, 232, 255, .15);
+  color: var(--game-cyan);
+  background: rgba(66, 232, 255, .08);
+}
+
+.app-shell[data-theme="dark"] .goal-symbol-1,
+.app-shell[data-theme="dark"] .goal-card-1 .goal-card-symbol {
+  border-color: rgba(207, 255, 85, .17);
+  color: var(--game-lime);
+  background: rgba(207, 255, 85, .07);
+}
+
+.app-shell[data-theme="dark"] .metric-icon.positive {
+  color: var(--game-lime);
+  background: rgba(207, 255, 85, .09);
+}
+
+.app-shell[data-theme="dark"] .metric-icon.negative {
+  color: #ff8296;
+  background: rgba(255, 79, 216, .09);
+}
+
+.app-shell[data-theme="dark"] .button-primary,
+.app-shell[data-theme="dark"] .dream-save-button,
+.app-shell[data-theme="dark"] .button-save {
+  color: #101523;
+  background: linear-gradient(110deg, var(--game-lime), #9af4c2);
+  box-shadow: 0 0 18px rgba(207, 255, 85, .16);
+}
+
+.app-shell[data-theme="dark"] .button-primary:hover,
+.app-shell[data-theme="dark"] .dream-save-button:hover:not(:disabled),
+.app-shell[data-theme="dark"] .button-save:hover {
+  box-shadow: 0 0 24px rgba(207, 255, 85, .28);
+}
+
+.app-shell[data-theme="dark"] .button-outline,
+.app-shell[data-theme="dark"] .theme-toggle,
+.app-shell[data-theme="dark"] .search-field,
+.app-shell[data-theme="dark"] .icon-button {
+  border-color: rgba(66, 232, 255, .2);
+  border-radius: 9px;
+  background: #111622;
+}
+
+.app-shell[data-theme="dark"] .button-outline:hover,
+.app-shell[data-theme="dark"] .theme-toggle:hover {
+  border-color: rgba(66, 232, 255, .52);
+  color: var(--game-cyan);
+  box-shadow: 0 0 16px rgba(66, 232, 255, .08);
+}
+
+.app-shell[data-theme="dark"] .search-field:focus-within,
+.app-shell[data-theme="dark"] .form-field input:focus,
+.app-shell[data-theme="dark"] .form-field select:focus,
+.app-shell[data-theme="dark"] .currency-input:focus {
+  border-color: var(--game-cyan);
+  box-shadow: 0 0 0 3px rgba(66, 232, 255, .13);
+}
+
+.app-shell[data-theme="dark"] .bar-fill::-webkit-progress-value,
+.app-shell[data-theme="dark"] .goal-fill::-webkit-progress-value,
+.app-shell[data-theme="dark"] .evolution-progress > span {
+  background: linear-gradient(90deg, var(--game-magenta), #a678ff 48%, var(--game-cyan));
+  box-shadow: 0 0 12px rgba(66, 232, 255, .3);
+}
+
+.app-shell[data-theme="dark"] .filter-tab.selected,
+.app-shell[data-theme="dark"] .filter-tab:hover {
+  color: var(--game-cyan);
+  background: rgba(66, 232, 255, .08);
+}
+
+.app-shell[data-theme="dark"] .transaction-kind.income {
+  color: var(--game-lime);
+  background: rgba(207, 255, 85, .08);
+}
+
+.app-shell[data-theme="dark"] .transaction-kind.expense {
+  color: #ff91dd;
+  background: rgba(255, 79, 216, .09);
+}
+
+.app-shell[data-theme="dark"] .metric-value,
+.app-shell[data-theme="dark"] .balance-value,
+.app-shell[data-theme="dark"] .goal-card-amounts strong {
+  font-family: "Consolas", "Courier New", monospace;
+  letter-spacing: -.5px;
+}
+
+.app-shell[data-theme="light"] .page-content {
+  background:
+    radial-gradient(ellipse at 90% 4%, rgba(255, 79, 216, .08), transparent 24rem),
+    radial-gradient(ellipse at 8% 45%, rgba(66, 173, 255, .09), transparent 28rem),
+    linear-gradient(rgba(104, 67, 232, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(104, 67, 232, .045) 1px, transparent 1px),
+    #f5f4fb;
+  background-size: auto, auto, 32px 32px, 32px 32px, auto;
+  background-attachment: fixed;
+}
+
+.app-shell[data-theme="light"] .panel,
+.app-shell[data-theme="light"] .metric-card,
+.app-shell[data-theme="light"] .goals-summary,
+.app-shell[data-theme="light"] .goal-card {
+  border-color: rgba(104, 67, 232, .15);
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(46, 37, 91, .07);
+}
+
+.app-shell[data-theme="light"] .panel:hover,
+.app-shell[data-theme="light"] .metric-card:hover,
+.app-shell[data-theme="light"] .goal-card:hover {
+  border-color: rgba(38, 178, 220, .45);
+  box-shadow: 0 14px 32px rgba(46, 37, 91, .1), 0 0 16px rgba(66, 173, 255, .1);
+}
+
+.app-shell[data-theme="light"] .nav-item.active {
+  border: 1px solid rgba(104, 67, 232, .18);
+  box-shadow: inset 3px 0 0 #ff4fd8, 0 5px 16px rgba(104, 67, 232, .08);
+}
+
+.app-shell[data-theme="light"] .button-primary {
+  background: linear-gradient(110deg, #7447ed, #378eea);
+}
+
+.app-shell[data-theme="light"] .button-primary:hover {
+  box-shadow: 0 8px 20px rgba(66, 123, 232, .25);
+}
+
+.app-shell[data-theme="light"] .sidebar {
+  border-right-color: #e9e5f4;
+  background: #fff;
+  box-shadow: none;
+}
+
+.app-shell[data-theme="light"] .brand {
+  color: #28243d;
+}
+
+.app-shell[data-theme="light"] .brand-light {
+  color: #6843e8;
+}
+
+.app-shell[data-theme="light"] .workspace-label,
+.app-shell[data-theme="light"] .nav-item,
+.app-shell[data-theme="light"] .sidebar-tip p,
+.app-shell[data-theme="light"] .profile-copy .inline-content {
+  color: #625d70;
+}
+
+.app-shell[data-theme="light"] .nav-item:hover {
+  color: #4a2bb5;
+}
+
+.app-shell[data-theme="light"] .sidebar-tip {
+  border-color: #e9e5f4;
+  background: linear-gradient(145deg, #faf9ff, #f3f0ff);
+}
+
+.app-shell[data-theme="light"] .sidebar-tip strong,
+.app-shell[data-theme="light"] .profile-copy strong,
+.app-shell[data-theme="light"] .page-heading h1 {
+  color: #27243b;
+}
+
+.app-shell[data-theme="light"] .profile {
+  border-top-color: #e9e5f4;
+}
+
+.app-shell[data-theme="light"] .heading-copy,
+.app-shell[data-theme="light"] .eyebrow,
+.app-shell[data-theme="light"] .app-footer,
+.app-shell[data-theme="light"] .filter-tab,
+.app-shell[data-theme="light"] .modal-heading p,
+.app-shell[data-theme="light"] .movement-info {
+  color: #625d70;
+}
+
+.app-shell[data-theme="light"] .search-field input::placeholder,
+.app-shell[data-theme="light"] .form-field input::placeholder {
+  color: #77718a;
+}
+
+.app-shell[data-theme="light"] .app-footer {
+  border-top-color: #e9e5f4;
+}
+
+.app-shell[data-theme="light"] .sidebar {
+  background: linear-gradient(180deg, #fff 0%, #fcf8ff 58%, #f0fbff 100%);
+}
+
+.app-shell[data-theme="light"] .topbar {
+  border-bottom-color: #e6dbff;
+  background: linear-gradient(100deg, rgba(255, 255, 255, .97), rgba(248, 242, 255, .97) 60%, rgba(237, 250, 255, .97));
+}
+
+.app-shell[data-theme="light"] .page-content {
+  background:
+    radial-gradient(ellipse at 90% 5%, rgba(255, 79, 216, .14), transparent 24rem),
+    radial-gradient(ellipse at 8% 42%, rgba(66, 173, 255, .15), transparent 28rem),
+    radial-gradient(ellipse at 84% 90%, rgba(190, 235, 70, .1), transparent 22rem),
+    linear-gradient(rgba(104, 67, 232, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(104, 67, 232, .045) 1px, transparent 1px),
+    #f7f4ff;
+  background-size: auto, auto, auto, 32px 32px, 32px 32px, auto;
+  background-attachment: fixed;
+}
+
+.app-shell[data-theme="light"] .level-card {
+  border-color: #dbd0ff;
+  background: linear-gradient(135deg, #f3edff, #eafffa);
+}
+
+.app-shell[data-theme="light"] .nav-item.active {
+  border-color: rgba(116, 71, 237, .26);
+  background: linear-gradient(120deg, #dfff86, #a9efff 72%, #f8c5e8);
+  box-shadow: inset 3px 0 0 #7447ed, 0 5px 16px rgba(104, 67, 232, .12);
+}
+
+.app-shell[data-theme="light"] .button-primary {
+  background: linear-gradient(110deg, #6843e8, #b5338e);
+  box-shadow: 0 8px 18px rgba(133, 59, 193, .22);
+}
+
+.app-shell[data-theme="light"] .button-primary:hover {
+  background: linear-gradient(110deg, #5632d0, #9e287b);
+  box-shadow: 0 9px 22px rgba(133, 59, 193, .28);
+}
+
+.app-shell[data-theme="light"] .balance-card {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 112, 194, .38), transparent 32%),
+    linear-gradient(125deg, #7040e8 0%, #5945d4 56%, #315dc9 100%);
+  box-shadow: 0 14px 30px rgba(91, 61, 190, .24);
+}
+
+.app-shell[data-theme="light"] .spending-panel {
+  border-color: rgba(43, 181, 207, .35);
+}
+
+.app-shell[data-theme="light"] .goals-panel {
+  border-color: rgba(221, 78, 166, .3);
+}
+
+.app-shell[data-theme="light"] .evolution-panel {
+  border-color: rgba(111, 183, 76, .35);
+}
+
+.app-shell[data-theme="light"] .achievement-panel {
+  border-color: rgba(116, 71, 237, .28);
+}
+
+.app-shell[data-theme="light"] .spending-panel .panel-icon {
+  color: #087c92;
+  background: #dff9ff;
+}
+
+.app-shell[data-theme="light"] .goals-panel .panel-icon {
+  color: #b5338e;
+  background: #ffebf5;
+}
+
+.app-shell[data-theme="light"] .filter-tab.selected {
+  border: 1px solid #e8c8f2;
+  background: linear-gradient(120deg, #f2eaff, #ffeaf5);
+}
+
+.app-shell[data-theme="light"] {
+  background: #f0edff;
+}
+
+.app-shell[data-theme="light"] .sidebar {
+  background: linear-gradient(180deg, #f4edff 0%, #fff2f8 52%, #e8faff 100%);
+}
+
+.app-shell[data-theme="light"] .topbar {
+  background: linear-gradient(100deg, #f5edff, #eaf8ff 58%, #fff0f7);
+}
+
+.app-shell[data-theme="light"] .page-content {
+  background:
+    radial-gradient(ellipse at 92% 4%, rgba(255, 79, 216, .2), transparent 25rem),
+    radial-gradient(ellipse at 7% 38%, rgba(66, 173, 255, .2), transparent 28rem),
+    radial-gradient(ellipse at 82% 88%, rgba(190, 235, 70, .14), transparent 23rem),
+    linear-gradient(rgba(104, 67, 232, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(104, 67, 232, .055) 1px, transparent 1px),
+    #f0edff;
+  background-size: auto, auto, auto, 32px 32px, 32px 32px, auto;
+  background-attachment: fixed;
+}
+
+.app-shell[data-theme="light"] .metric-card {
+  background: linear-gradient(145deg, #fff, #f2f7ff);
+}
+
+.app-shell[data-theme="light"] .overview-grid > .metric-card:nth-child(2) {
+  background: linear-gradient(145deg, #edfff7, #f0fbff);
+}
+
+.app-shell[data-theme="light"] .overview-grid > .metric-card:nth-child(3) {
+  background: linear-gradient(145deg, #fff0f7, #f5f0ff);
+}
+
+.app-shell[data-theme="light"] .spending-panel {
+  background: linear-gradient(145deg, #eafaff, #f8fdff 72%);
+}
+
+.app-shell[data-theme="light"] .goals-panel {
+  background: linear-gradient(145deg, #fff0f7, #fff9fc 72%);
+}
+
+.app-shell[data-theme="light"] .evolution-panel {
+  background: linear-gradient(145deg, #efffea, #fbfff8 72%);
+}
+
+.app-shell[data-theme="light"] .achievement-panel {
+  background: linear-gradient(145deg, #f2edff, #fbf9ff 72%);
+}
+
+.app-shell[data-theme="light"] .recent-panel,
+.app-shell[data-theme="light"] .goals-summary,
+.app-shell[data-theme="light"] .goal-card {
+  background: linear-gradient(145deg, #f3f0ff, #fcfaff 75%);
 }

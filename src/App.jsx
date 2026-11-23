@@ -8,6 +8,7 @@ import Main from "./components/Main.jsx";
 import {
   endSession,
   getSessionEmail,
+  hasSession,
 } from "./services/authService.js";
 import {
   addGoal,
@@ -33,14 +34,17 @@ import {
 } from "./services/profileService.js";
 
 export default function App() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [accountEmail, setAccountEmail] = useState(null);
+  const [initialSession] = useState(() => {
+    const email = hasSession() ? getSessionEmail() : null;
+    return { authenticated: Boolean(email), email };
+  });
+  const [authenticated, setAuthenticated] = useState(initialSession.authenticated);
+  const [accountEmail, setAccountEmail] = useState(initialSession.email);
   const [initialState] = useState(() => {
-    endSession();
-    return readSavedState(null);
+    return readSavedState(initialSession.email);
   });
   const [initialProfile] = useState(() =>
-    readProfilePreference(getSessionEmail()),
+    readProfilePreference(initialSession.email),
   );
   const [transactions, setTransactions] = useState(initialState.data.transactions);
   const [goals, setGoals] = useState(initialState.data.goals);

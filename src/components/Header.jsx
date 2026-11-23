@@ -1,4 +1,6 @@
 import Icon from "./Icon.jsx";
+import AvatarPicker from "./AvatarPicker.jsx";
+import { profileAvatars } from "../services/profileService.js";
 import "./Header.css";
 
 const navigation = [
@@ -13,7 +15,9 @@ const pageTitles = {
   goals: "Caixinhas",
 };
 
-export default function Header({ page, onNavigate, onLogout, theme, onToggleTheme, savingsLevel }) {
+export default function Header({ page, onNavigate, onLogout, theme, onToggleTheme, savingsLevel, profileAvatarId, onAvatarSelect }) {
+  const profileAvatar =
+    profileAvatars.find((avatar) => avatar.id === profileAvatarId) ?? profileAvatars[0];
   return (
     <>
       <aside className="sidebar">
@@ -52,7 +56,7 @@ export default function Header({ page, onNavigate, onLogout, theme, onToggleThem
             <p>Seu futuro financeiro começa com uma escolha de cada vez.</p>
           </aside>
           <section className="profile" aria-label="Conta demonstrativa">
-            <span className="avatar" aria-hidden="true">M</span>
+            <span className={`avatar avatar-tone-${profileAvatar.color}`} aria-hidden="true">{profileAvatar.emoji}</span>
             <span className="profile-copy"><strong>Minha conta</strong><span>Modo demonstração</span></span>
             <span className="profile-status" aria-label="Sessão ativa" />
           </section>
@@ -66,7 +70,7 @@ export default function Header({ page, onNavigate, onLogout, theme, onToggleThem
         </nav>
         <section className="topbar-right">
           <span className="demo-pill"><span /> Dados salvos neste navegador</span>
-          <span className="avatar top-avatar" aria-hidden="true">M</span>
+          <AvatarPicker avatarId={profileAvatarId} onSelect={onAvatarSelect} />
           <button
             className="theme-toggle"
             type="button"

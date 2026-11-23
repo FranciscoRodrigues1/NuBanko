@@ -44,6 +44,13 @@
   border: 1px solid #e8e2ff;
   border-radius: 12px;
   background: linear-gradient(140deg, #f8f6ff, #f4fdfb);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.level-card:hover {
+  transform: translateY(-2px);
+  border-color: #c4b1ff;
+  box-shadow: 0 10px 24px rgba(104, 67, 232, .12);
 }
 
 .level-card-top {
@@ -83,6 +90,7 @@
   border-radius: inherit;
   background: linear-gradient(90deg, #7650ed, #43dcbf);
   transition: width .35s ease;
+  box-shadow: 0 0 10px rgba(67, 220, 191, .45);
 }
 
 .level-caption {

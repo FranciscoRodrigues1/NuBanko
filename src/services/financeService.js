@@ -213,6 +213,40 @@ export function moveGoal(goals, available, goalId, type, amount) {
   };
 }
 
+export function transferGoal(goals, sourceGoalId, destinationGoalId, amount) {
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return { ok: false, reason: "invalid-transfer" };
+  }
+  const numericAmount = roundMoney(amount);
+  const sourceGoal = goals.find((item) => item.id === sourceGoalId);
+  const destinationGoal = goals.find((item) => item.id === destinationGoalId);
+
+  if (
+    !sourceGoal ||
+    !destinationGoal ||
+    sourceGoalId === destinationGoalId ||
+    numericAmount <= 0
+  ) {
+    return { ok: false, reason: "invalid-transfer" };
+  }
+  if (numericAmount > sourceGoal.saved) {
+    return { ok: false, reason: "insufficient-goal-balance" };
+  }
+
+  return {
+    ok: true,
+    goals: goals.map((goal) => {
+      if (goal.id === sourceGoalId) {
+        return { ...goal, saved: roundMoney(goal.saved - numericAmount) };
+      }
+      if (goal.id === destinationGoalId) {
+        return { ...goal, saved: roundMoney(goal.saved + numericAmount) };
+      }
+      return goal;
+    }),
+  };
+}
+
 export function deleteGoal(goals, goalId) {
   return goals.filter((item) => item.id !== goalId);
 }

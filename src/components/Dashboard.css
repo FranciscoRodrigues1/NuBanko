@@ -3,6 +3,13 @@
   text-shadow: 0 0 24px rgba(169, 138, 255, .26);
 }
 
+.dashboard-heading { animation: dashboard-enter .55s cubic-bezier(.2, .75, .25, 1) both; }
+.overview-grid { animation: dashboard-enter .6s .08s cubic-bezier(.2, .75, .25, 1) both; }
+.dream-grid { animation: dashboard-enter .6s .16s cubic-bezier(.2, .75, .25, 1) both; }
+.dashboard-grid { animation: dashboard-enter .6s .22s cubic-bezier(.2, .75, .25, 1) both; }
+.journey-grid { animation: dashboard-enter .6s .28s cubic-bezier(.2, .75, .25, 1) both; }
+.recent-panel { animation: dashboard-enter .6s .34s cubic-bezier(.2, .75, .25, 1) both; }
+
 .dream-grid,
 .journey-grid {
   display: grid;
@@ -19,6 +26,14 @@
   border-radius: 24px;
   color: #fff;
   box-shadow: 0 18px 42px rgba(52, 37, 101, .16);
+  isolation: isolate;
+  transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.featured-dream:hover,
+.weekly-dream:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(52, 37, 101, .3);
 }
 
 .featured-dream {
@@ -32,6 +47,26 @@
   box-shadow: 0 18px 42px rgba(20, 52, 120, .22), inset 0 0 30px rgba(93, 227, 255, .04);
 }
 
+.featured-dream::before,
+.weekly-dream::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -90px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(208, 247, 124, .25), transparent 68%);
+  animation: glow-float 7s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.weekly-dream::before {
+  background: radial-gradient(circle, rgba(93, 227, 255, .3), transparent 68%);
+  animation-delay: -2s;
+}
+
 .featured-dream::after {
   content: "";
   position: absolute;
@@ -41,6 +76,8 @@
   height: 250px;
   border: 1px solid rgba(255,255,255,.16);
   border-radius: 50%;
+  animation: orbit-drift 18s linear infinite;
+  pointer-events: none;
 }
 
 .dream-sticker,
@@ -58,6 +95,7 @@
   font-size: 31px;
   transform: rotate(6deg);
   box-shadow: 0 8px 18px rgba(35,20,80,.15);
+  animation: sticker-hover 4s ease-in-out infinite;
 }
 
 .challenge-bolt {
@@ -71,6 +109,7 @@
   background: #ffd05f;
   font-size: 22px;
   transform: none;
+  animation: bolt-pop 3.2s ease-in-out infinite;
 }
 
 .dream-kicker {
@@ -131,6 +170,8 @@
   border-radius: inherit;
   background: linear-gradient(90deg, #d0f77c, #b5ed57);
   transition: width .8s ease;
+  transform-origin: left center;
+  animation: progress-arrive .9s .35s cubic-bezier(.2, .75, .25, 1) both;
 }
 
 .challenge-progress span { background: linear-gradient(90deg, #d0f77c, #ffd05f); }
@@ -167,6 +208,7 @@
   font-weight: 800;
   box-shadow: 0 8px 16px rgba(31,22,66,.18);
   transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  animation: button-glow 4.5s ease-in-out infinite;
 }
 
 .dream-save-button:hover:not(:disabled) {
@@ -176,6 +218,7 @@
 }
 
 .dream-save-button:disabled { cursor: not-allowed; opacity: .7; }
+.dream-save-button:disabled { animation: none; }
 .challenge-value { justify-content: flex-start; gap: 7px; }
 .challenge-value strong { font-size: 21px; }
 .challenge-value span { color: rgba(255,255,255,.75); font-size: 10px; }
@@ -201,13 +244,19 @@
   border-radius: 12px;
   background: #eee8ff;
   font-size: 20px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.dream-mini:hover .dream-mini-icon {
+  transform: rotate(-8deg) scale(1.08);
+  box-shadow: 0 0 18px rgba(151, 110, 255, .24);
 }
 
 .dream-mini > div:nth-child(2) { display: flex; justify-content: space-between; gap: 8px; }
 .dream-mini strong { font-size: 11px; }
 .dream-mini span { color: #77718a; font-size: 9px; }
 .dream-mini-bar { height: 5px; overflow: hidden; border-radius: 999px; background: #eeeaf4; }
-.dream-mini-bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7650ed, #ac77ff); }
+.dream-mini-bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7650ed, #ac77ff); transform-origin: left center; animation: progress-arrive 1s .45s both; }
 
 .evolution-level {
   display: flex;
@@ -231,12 +280,13 @@
   background: linear-gradient(145deg, #e1ff89, #bff264);
   font-size: 22px;
   box-shadow: 0 0 20px rgba(190, 242, 100, .25);
+  animation: medal-float 3.6s ease-in-out infinite;
 }
 
 .evolution-level > div { display: grid; gap: 4px; }
 .evolution-level > div small { color: #7556c6; font-size: 9px; font-weight: 800; letter-spacing: .8px; }
 .evolution-level > div strong { color: #302748; font-size: 15px; }
-.evolution-level-badge { margin-left: auto; padding: 6px 9px; border-radius: 9px; color: #33205f; background: #d0f77c; font-size: 10px; font-weight: 800; }
+.evolution-level-badge { margin-left: auto; padding: 6px 9px; border-radius: 9px; color: #33205f; background: #d0f77c; font-size: 10px; font-weight: 800; box-shadow: 0 0 0 0 rgba(208, 247, 124, .42); animation: badge-pulse 3s ease-out infinite; }
 
 .evolution-progress {
   height: 9px;
@@ -252,6 +302,8 @@
   background: linear-gradient(90deg, #7550e9, #9c67f2 54%, #a8ed55);
   box-shadow: 0 0 14px rgba(126, 89, 226, .35);
   transition: width .6s ease;
+  transform-origin: left center;
+  animation: progress-arrive .9s .3s both;
 }
 
 .evolution-feedback { margin: 12px 0 0; padding: 9px 11px; border-radius: 10px; color: #176f56; background: #e4f8ed; font-size: 10px; font-weight: 700; }
@@ -259,10 +311,12 @@
 .achievement-count { flex: 0 0 auto; padding: 7px 9px; border-radius: 9px; color: #5636cb; background: #eee8ff; font-size: 9px; font-weight: 800; }
 .achievement-count { color: #3c286f; background: #d9f88d; }
 .achievement-list { display: grid; gap: 8px; margin-top: 15px; }
-.achievement-item { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 9px; border: 1px solid #eeebf4; border-radius: 13px; background: #faf9fd; opacity: .58; }
+.achievement-item { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 9px; border: 1px solid #eeebf4; border-radius: 13px; background: #faf9fd; opacity: .58; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.achievement-item:hover { transform: translateX(3px); }
 .achievement-item.unlocked { border-color: #e5dbff; background: #f5f0ff; opacity: 1; }
 .achievement-medal { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 12px; background: #efedf4; font-size: 21px; }
-.achievement-item.unlocked .achievement-medal { background: #e5d9ff; }
+.achievement-item.unlocked .achievement-medal { background: #e5d9ff; animation: medal-pop .45s .2s backwards, medal-float 4s 1s ease-in-out infinite; }
+.achievement-item.unlocked:hover { border-color: #c8b3ff; box-shadow: 0 8px 20px rgba(113, 78, 195, .12); }
 .achievement-item > div { display: grid; gap: 3px; min-width: 0; }
 .achievement-item strong { color: #332a4c; font-size: 10px; }
 .achievement-item small { color: #77718a; font-size: 9px; }
@@ -280,6 +334,50 @@
 .app-shell[data-theme="dark"] .evolution-progress { background: #292d38; }
 .app-shell[data-theme="dark"] .achievement-item { border-color: #292d38; background: #171b24; }
 .app-shell[data-theme="dark"] .achievement-item.unlocked { border-color: #49376e; background: #201a30; }
+
+@keyframes dashboard-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sticker-hover {
+  0%, 100% { transform: rotate(6deg) translateY(0); }
+  50% { transform: rotate(-2deg) translateY(-5px); }
+}
+
+@keyframes bolt-pop {
+  0%, 100% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(-7deg) scale(1.06); }
+}
+
+@keyframes glow-float {
+  from { transform: translate3d(-12px, 8px, 0) scale(.92); opacity: .65; }
+  to { transform: translate3d(8px, -8px, 0) scale(1.08); opacity: 1; }
+}
+
+@keyframes orbit-drift {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes progress-arrive {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes medal-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes badge-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(208, 247, 124, .42); }
+  70%, 100% { box-shadow: 0 0 0 9px rgba(208, 247, 124, 0); }
+}
+
+@keyframes button-glow {
+  0%, 100% { box-shadow: 0 8px 16px rgba(31,22,66,.18); }
+  50% { box-shadow: 0 8px 22px rgba(31,22,66,.22), 0 0 16px rgba(208,247,124,.2); }
+}
 
 @media (max-width: 760px) {
   .dashboard-heading h1 { font-size: 25px; }

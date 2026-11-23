@@ -277,6 +277,51 @@
   background: linear-gradient(125deg, #5836ad, #383078);
 }
 
+.assistant-sources {
+  display: grid;
+  width: 88%;
+  gap: 8px;
+  margin: -4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assistant-sources li {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid #2b2c39;
+  border-radius: 11px;
+  background: #141720;
+}
+
+.assistant-sources a {
+  color: #9ee8ff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.assistant-sources a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.assistant-sources span {
+  color: #aaa5b9;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.assistant-searching {
+  align-self: flex-start;
+  margin: 0;
+  color: #aaa5b9;
+  font-size: 12px;
+  font-style: italic;
+}
+
 .assistant-suggestions {
   display: grid;
   gap: 7px;
@@ -472,6 +517,20 @@
   border-color: #6440d5;
   color: #fff;
   background: linear-gradient(125deg, #6843e8, #3e75da);
+}
+
+.app-shell[data-theme="light"] .assistant-sources li {
+  border-color: #e3dcf2;
+  background: #f7f3ff;
+}
+
+.app-shell[data-theme="light"] .assistant-sources a {
+  color: #5636cb;
+}
+
+.app-shell[data-theme="light"] .assistant-sources span,
+.app-shell[data-theme="light"] .assistant-searching {
+  color: #625d70;
 }
 
 .app-shell[data-theme="light"] .assistant-suggestions button {

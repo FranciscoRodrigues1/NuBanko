@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { interpretAssistantMessage } from "../services/assistantService.js";
+import { searchWeb } from "../services/webSearchService.js";
 import Icon from "./Icon.jsx";
 import PiggyAvatar from "./PiggyAvatar.jsx";
 import "./AssistantAgent.css";
@@ -20,6 +21,7 @@ export default function AssistantAgent({
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [activityMessage, setActivityMessage] = useState(null);
   const [pendingAction, setPendingAction] = useState(null);
   const [pendingRequest, setPendingRequest] = useState(null);
@@ -68,7 +70,7 @@ export default function AssistantAgent({
     }
   }, [messages]);
 
-  function sendQuestion(text) {
+  async function sendQuestion(text) {
     const trimmedQuestion = text.trim();
     if (!trimmedQuestion) return;
 
@@ -82,10 +84,47 @@ export default function AssistantAgent({
     setMessages((current) => [
       ...current,
       { id: nextMessageId.current++, sender: "user", text: trimmedQuestion },
-      { id: nextMessageId.current++, sender: "agent", text: result.reply },
     ]);
-    animateSpeech();
     setQuestion("");
+    animateSpeech();
+
+    if (!result.webSearchQuery) {
+      setMessages((current) => [
+        ...current,
+        { id: nextMessageId.current++, sender: "agent", text: result.reply },
+      ]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const { results } = await searchWeb(result.webSearchQuery);
+      setMessages((current) => [
+        ...current,
+        {
+          id: nextMessageId.current++,
+          sender: "agent",
+          text: results.length
+            ? `Encontrei ${results.length} fontes sobre "${result.webSearchQuery}". Confira os resumos e consulte os links:`
+            : `Não encontrei resultados para "${result.webSearchQuery}". ${result.reply}`,
+          sources: results,
+        },
+      ]);
+      animateSpeech();
+    } catch (error) {
+      console.error("Não foi possível fazer a busca externa da Nubi.", error);
+      setMessages((current) => [
+        ...current,
+        {
+          id: nextMessageId.current++,
+          sender: "agent",
+          text: `Não consegui pesquisar na internet agora. ${result.reply}`,
+        },
+      ]);
+      animateSpeech();
+    } finally {
+      setIsSearching(false);
+    }
   }
 
   function confirmAction() {
@@ -164,13 +203,33 @@ export default function AssistantAgent({
 
           <div className="assistant-messages" ref={messagesRef} aria-live="polite">
             {messages.map((message) => (
-              <p
-                className={`assistant-message ${message.sender}`}
-                key={message.id}
-              >
-                {message.text}
-              </p>
+              <Fragment key={message.id}>
+                <p className={`assistant-message ${message.sender}`}>
+                  {message.text}
+                </p>
+                {message.sources?.length > 0 && (
+                  <ul className="assistant-sources">
+                    {message.sources.map((source) => (
+                      <li key={source.url}>
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {source.title}
+                        </a>
+                        {source.description && <span>{source.description}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Fragment>
             ))}
+            {isSearching && (
+              <p className="assistant-searching" role="status">
+                Buscando informações na internet...
+              </p>
+            )}
             {messages.length === 1 && (
               <div className="assistant-suggestions" aria-label="Sugestões de perguntas">
                 {suggestedQuestions.map((suggestion) => (
@@ -217,13 +276,15 @@ export default function AssistantAgent({
               onChange={(event) => setQuestion(event.target.value)}
               placeholder="Pergunte ou peça uma ação..."
               autoComplete="off"
+              disabled={isSearching}
             />
-            <button type="submit" disabled={!question.trim()}>
-              Enviar
+            <button type="submit" disabled={!question.trim() || isSearching}>
+              {isSearching ? "Buscando..." : "Enviar"}
             </button>
           </form>
           <p className="assistant-disclaimer">
             Respostas guiadas. Ações só são salvas após confirmar; os dados ficam neste navegador.
+            {" "}Buscas externas enviam apenas o termo pesquisado ao Brave Search.
             {" "}
             <button type="button" onClick={() => onNavigate("transactions")}>
               Ver movimentações

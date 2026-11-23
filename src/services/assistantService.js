@@ -1,11 +1,47 @@
 import { categories, localDate, money, roundMoney } from "./financeService.js";
 
+const UNRECOGNIZED_REPLY =
+  "Posso ajudar com saldo livre, entradas e gastos do mês, Caixinhas ou ideias para economizar. Pergunte sobre um desses temas — uso apenas os dados salvos neste navegador.";
+
 function normalizeQuestion(question) {
   return question
     .trim()
     .toLocaleLowerCase("pt-BR")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getWebSearchQuery(question) {
+  const normalized = normalizeQuestion(question);
+  const prefixes = [
+    "qual o significado de",
+    "qual significado de",
+    "o que significa",
+    "como funciona",
+    "o que sao",
+    "o que e",
+    "defina",
+    "explique",
+  ];
+  const prefix = prefixes.find((item) => normalized.startsWith(`${item} `));
+  if (!prefix) return null;
+
+  const term = question
+    .trim()
+    .slice(prefix.length)
+    .replace(/[?!.\s]+$/g, "")
+    .trim();
+  const normalizedTerm = normalizeQuestion(term);
+  if (
+    term.length < 2 ||
+    term.length > 100 ||
+    /\d/.test(term) ||
+    /\b(eu|meu|minha|meus|minhas|nosso|nossa|saldo|caixinha|conta|cpf|senha)\b/.test(normalizedTerm)
+  ) {
+    return null;
+  }
+
+  return term;
 }
 
 function parseAmount(question) {
@@ -200,7 +236,13 @@ export function interpretAssistantMessage(question, context, pendingRequest = nu
   }
 
   if (asksForAdvice) {
-    return { reply: getGuidedReply(question, context), action: null };
+    const reply = getGuidedReply(question, context);
+    return {
+      reply,
+      action: null,
+      webSearchQuery:
+        reply === UNRECOGNIZED_REPLY ? getWebSearchQuery(question) : null,
+    };
   }
 
   if (requestedActions > 1) {
@@ -307,7 +349,13 @@ export function interpretAssistantMessage(question, context, pendingRequest = nu
     return actionProposal({ type: "record-transaction", values }, summary);
   }
 
-  return { reply: getGuidedReply(question, context), action: null };
+  const reply = getGuidedReply(question, context);
+  return {
+    reply,
+    action: null,
+    webSearchQuery:
+      reply === UNRECOGNIZED_REPLY ? getWebSearchQuery(question) : null,
+  };
 }
 
 export function getGuidedReply(question, context) {
@@ -364,5 +412,5 @@ export function getGuidedReply(question, context) {
     return `Você tem ${money.format(totals.available)} de saldo livre e ${money.format(totals.reserved)} reservado nas Caixinhas. Seu saldo geral é ${money.format(totals.balance)}.`;
   }
 
-  return "Posso ajudar com saldo livre, entradas e gastos do mês, Caixinhas ou ideias para economizar. Pergunte sobre um desses temas — uso apenas os dados salvos neste navegador.";
+  return UNRECOGNIZED_REPLY;
 }

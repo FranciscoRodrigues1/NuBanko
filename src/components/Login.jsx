@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authenticate, registerAccount } from "../services/authService.js";
+import { authenticate, registerAccount, startDemoSession } from "../services/authService.js";
 import Icon from "./Icon.jsx";
 import "./Login.css";
 
@@ -39,6 +39,15 @@ export default function Login({ onLogin }) {
     }
     onLogin();
     setIsSubmitting(false);
+  }
+
+  function enterDemo() {
+    const result = startDemoSession();
+    if (result.ok) {
+      onLogin();
+      return;
+    }
+    setError("Não foi possível iniciar o acesso demonstrativo neste navegador.");
   }
 
   function changeMode(nextMode) {
@@ -128,6 +137,9 @@ export default function Login({ onLogin }) {
             {isSubmitting ? "Aguarde..." : registering ? "Criar conta" : "Entrar"} <Icon name="chevron" size={17} />
           </button>
         </form>
+        <button className="button login-demo-button" type="button" onClick={enterDemo}>
+          <Icon name="target" size={17} /> Entrar no modo demonstrativo
+        </button>
         <p className="login-switch">
           {registering ? "Já tem uma conta?" : "Ainda não tem uma conta?"}
           <button type="button" onClick={() => changeMode(registering ? "login" : "register")}>{registering ? "Entrar" : "Criar conta"}</button>

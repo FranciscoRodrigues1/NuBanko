@@ -140,6 +140,10 @@ export function getSessionEmail() {
   return window.sessionStorage.getItem("nubanko-demo-email");
 }
 
+export function startDemoSession() {
+  return startSession("demo@nubanko.local");
+}
+
 export function endSession() {
   window.sessionStorage.removeItem(SESSION_KEY);
   window.sessionStorage.removeItem("nubanko-demo-email");

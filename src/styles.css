@@ -53,7 +53,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .demo-pill .inline-content { width: 7px; height: 7px; border-radius: 50%; background: #55bd8d; box-shadow: 0 0 0 3px #e6f7ef; }
 .top-avatar { width: 32px; height: 32px; }
 .mobile-brand { display: none; }
-.page-content { width: min(100%, 1260px); margin: 0 auto; padding: 34px 42px 45px; flex: 1; }
+.page-content { width: min(100%, 1260px); margin: 0 auto; padding: 34px 42px 45px; display: flex; flex-direction: column; row-gap: 28px; flex: 1; }
 .page-section { display: grid; gap: 17px; }
 .dashboard-page > .page-heading, .goals-page > .page-heading { margin-bottom: 8px; }
 .dashboard-page > .dashboard-grid, .dashboard-page > .recent-panel { margin-top: 0; }
@@ -61,7 +61,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .transactions-page > .page-heading { margin-bottom: 0; }
 .goals-page > .goals-summary { margin-bottom: 0; }
 .goals-page > .goals-note { margin-top: 0; }
-.page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 25px; }
+.page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 0; }
 .eyebrow { margin: 0 0 8px; color: #9c97ac; font-size: 10px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; }
 h1, h2, p { margin-top: 0; }
 h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-serif; letter-spacing: -.8px; }
@@ -75,8 +75,8 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .button-soft { color: #6449c7; background: #f0ecff; }
 .button-soft:hover { background: #e6e0ff; }
 .button:disabled { cursor: not-allowed; opacity: .48; transform: none; }
-.overview-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 16px; }
-.balance-card { position: relative; overflow: hidden; min-height: 177px; padding: 20px 21px 17px; border-radius: 15px; color: #fff; background: linear-gradient(125deg, #7356df 0%, #6545cf 58%, #5639bd 100%); box-shadow: 0 9px 24px rgba(89,61,189,.16); }
+.overview-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.balance-card { position: relative; overflow: hidden; min-height: 160px; padding: 17px 18px 15px; border-radius: 15px; color: #fff; background: linear-gradient(125deg, #7356df 0%, #6545cf 58%, #5639bd 100%); box-shadow: 0 9px 24px rgba(89,61,189,.16); }
 .balance-card-top { position: relative; z-index: 1; display: flex; justify-content: space-between; }
 .card-kicker { display: block; color: rgba(255,255,255,.76); font-size: 9px; font-weight: 700; letter-spacing: 1px; }
 .balance-label { display: block; margin-top: 5px; color: rgba(255,255,255,.68); font-size: 10px; }
@@ -87,7 +87,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .balance-orb { position: absolute; border: 1px solid rgba(255,255,255,.09); border-radius: 50%; }
 .orb-one { right: -54px; bottom: -132px; width: 235px; height: 235px; }
 .orb-two { right: -13px; bottom: -100px; width: 165px; height: 165px; }
-.metric-card { min-width: 0; min-height: 177px; padding: 19px 19px 16px; border: 1px solid #eeedf3; border-radius: 15px; background: #fff; }
+.metric-card { min-width: 0; min-height: 160px; padding: 17px 18px 15px; border: 1px solid #eeedf3; border-radius: 15px; background: #fff; }
 .metric-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 17px; }
 .metric-icon { display: grid; width: 33px; height: 33px; place-items: center; border-radius: 10px; }
 .metric-icon.positive { color: #27a77b; background: #e9f8f1; }
@@ -96,7 +96,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .metric-label { display: block; color: #898698; font-size: 10px; }
 .metric-value { display: block; overflow: hidden; margin: 5px 0 7px; color: #302d42; font: 700 19px "Segoe UI", Arial, sans-serif; letter-spacing: -.45px; text-overflow: ellipsis; white-space: nowrap; }
 .metric-caption { color: #aaa7b4; font-size: 9px; }
-.dashboard-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-top: 17px; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 0; }
 .panel { min-width: 0; padding: 19px 20px; border: 1px solid #eeedf3; border-radius: 14px; background: #fff; }
 .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .panel-heading h2 { margin: 0 0 5px; color: #373448; font: 700 13px "Segoe UI", Arial, sans-serif; }
@@ -140,7 +140,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .goal-values { display: flex; justify-content: space-between; color: #9693a1; font-size: 9px; }
 .goal-values strong { color: #666275; font-weight: 600; }
 .goal-add-link { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: auto; padding: 13px 0 0; border: 0; color: #7153d6; background: none; font-size: 10px; font-weight: 700; }
-.recent-panel { margin-top: 17px; padding-bottom: 5px; }
+.recent-panel { margin-top: 0; padding-bottom: 5px; }
 .recent-heading { align-items: center; margin-bottom: 10px; }
 .recent-list, .transaction-list { display: grid; }
 .transaction-row { display: flex; align-items: center; gap: 11px; min-width: 0; min-height: 58px; border-bottom: 1px solid #f2f0f5; }
@@ -186,7 +186,7 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
 .summary-spacer { flex: 1; }
 .available-chip { padding: 8px 12px; border-radius: 9px; background: #f3fbf7; }
 .available-chip strong { color: #249b70; font-size: 13px; }
-.goal-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.goal-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .goal-card { min-width: 0; padding: 19px 20px; border: 1px solid #eeedf3; border-radius: 14px; background: #fff; }
 .goal-card-top { display: flex; align-items: center; justify-content: space-between; }
 .goal-card-symbol { display: grid; width: 41px; height: 41px; place-items: center; border-radius: 12px; color: #7656dc; background: #f0ecff; }
@@ -254,8 +254,8 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
   .demo-pill .inline-content { width: 8px; height: 8px; }
   .topbar-right { gap: 10px; }
   .top-avatar { width: 29px; height: 29px; }
-  .page-content { padding: 25px 17px 26px; }
-  .page-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 19px; }
+  .page-content { padding: 25px 17px 26px; row-gap: 20px; }
+  .page-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 0; }
   h1 { font-size: 24px; }
   .page-heading .button { width: 100%; }
   .overview-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -263,9 +263,9 @@ h1 { margin-bottom: 7px; color: #27243b; font: 700 27px "Segoe UI", Arial, sans-
   .metric-card { min-height: 151px; padding: 14px 12px; }
   .metric-top { margin-bottom: 13px; }
   .metric-value { font-size: 16px; }
-  .dashboard-grid { gap: 11px; margin-top: 11px; }
+  .dashboard-grid { gap: 11px; margin-top: 0; }
   .panel { padding: 16px 14px; }
-  .recent-panel { margin-top: 11px; }
+  .recent-panel { margin-top: 0; }
   .recent-heading { align-items: flex-start; }
   .recent-heading .text-button { max-width: 95px; white-space: normal; text-align: right; }
   .transaction-row { gap: 8px; min-height: 55px; }
@@ -361,8 +361,8 @@ body {
 .button-outline { border-color: #ded8eb; color: #554a70; }
 .button-outline:hover { border-color: #bfb0ec; background: #f7f3ff; }
 
-.overview-grid { gap: 14px; }
-.dashboard-grid { gap: 14px; }
+.overview-grid { gap: 24px; }
+.dashboard-grid { gap: 24px; }
 .balance-card {
   border: 1px solid rgba(255, 255, 255, .2);
   border-radius: 20px;

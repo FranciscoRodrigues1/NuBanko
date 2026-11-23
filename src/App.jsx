@@ -16,6 +16,7 @@ import {
   getMonthSummary,
   getSavingsLevel,
   getTotals,
+  clearSavedStates,
   moveGoal,
   money,
   readSavedState,
@@ -33,9 +34,13 @@ import {
 } from "./services/profileService.js";
 
 export default function App() {
-  const [authenticated, setAuthenticated] = useState(true);
-  const [accountEmail, setAccountEmail] = useState(getSessionEmail);
-  const [initialState] = useState(() => readSavedState(getSessionEmail()));
+  const [authenticated, setAuthenticated] = useState(false);
+  const [accountEmail, setAccountEmail] = useState(null);
+  const [initialState] = useState(() => {
+    endSession();
+    clearSavedStates();
+    return readSavedState(null);
+  });
   const [initialProfile] = useState(() =>
     readProfilePreference(getSessionEmail()),
   );

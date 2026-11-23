@@ -54,21 +54,20 @@ export function localDate(offset = 0) {
 }
 
 export function createDemoState() {
-  return {
-    transactions: [
-      { id: "salary", description: "Salário", amount: 3000, type: "income", category: "Salário", date: localDate(-14) },
-      { id: "freelance", description: "Projeto freelance", amount: 450, type: "income", category: "Freelance", date: localDate(-7) },
-      { id: "groceries", description: "Compras do mês", amount: 128, type: "expense", category: "Alimentação", date: localDate(-1) },
-      { id: "transport", description: "Recarga de transporte", amount: 79.9, type: "expense", category: "Transporte", date: localDate(-3) },
-      { id: "course", description: "Curso de inglês", amount: 220, type: "expense", category: "Estudos", date: localDate(-6) },
-      { id: "music", description: "Streaming de música", amount: 58.9, type: "expense", category: "Assinaturas", date: localDate(-4) },
-      { id: "coffee", description: "Café com amigos", amount: 75, type: "expense", category: "Lazer", date: localDate(0) },
-    ],
-    goals: [
-      { id: "trip", name: "Viagem de férias", emoji: "✈️", target: 3000, saved: 750, deadline: localDate(150) },
-      { id: "laptop", name: "Notebook novo", emoji: "💻", target: 4500, saved: 420, deadline: localDate(240) },
-    ],
-  };
+  return { transactions: [], goals: [] };
+}
+
+export function clearSavedStates() {
+  try {
+    for (let index = window.localStorage.length - 1; index >= 0; index -= 1) {
+      const key = window.localStorage.key(index);
+      if (key?.startsWith(STORAGE_KEY)) {
+        window.localStorage.removeItem(key);
+      }
+    }
+  } catch (error) {
+    console.error("Não foi possível limpar os dados financeiros locais.", error);
+  }
 }
 
 export function readSavedState(accountEmail = null) {

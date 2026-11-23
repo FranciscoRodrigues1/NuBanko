@@ -1,9 +1,11 @@
+
 import Dashboard from "./Dashboard.jsx";
 import GoalsPage from "./GoalsPage.jsx";
 import TransactionModal from "./TransactionModal.jsx";
 import TransactionsPage from "./TransactionsPage.jsx";
 import GoalModal from "./GoalModal.jsx";
 import MovementModal from "./MovementModal.jsx";
+import Economiques from "./Economiques.jsx";
 import "./Main.css";
 
 export default function Main({
@@ -18,18 +20,33 @@ export default function Main({
   onSaveTransaction,
   onSaveGoal,
   onSaveMovement,
-}) {
+})  {
   return (
     <main className="page-content">
       {notice && (
         <aside className="notice" role="status">
           <span>{notice}</span>
-          <button className="notice-close" type="button" aria-label="Fechar aviso" onClick={onDismissNotice}>×</button>
+          <button
+            className="notice-close"
+            type="button"
+            aria-label="Fechar aviso"
+            onClick={onDismissNotice}
+          >
+            ×
+          </button>
         </aside>
       )}
+
       {page === "home" && <Dashboard {...dashboard} />}
-      {page === "transactions" && <TransactionsPage {...transactionsPage} />}
+
+      {page === "transactions" && (
+        <TransactionsPage {...transactionsPage} />
+      )}
+
       {page === "goals" && <GoalsPage {...goalsPage} />}
+
+      {page === "economiques" && <Economiques />}
+
       {modal?.type === "transaction" && (
         <TransactionModal
           transaction={modal.transaction}
@@ -38,7 +55,11 @@ export default function Main({
           onSave={onSaveTransaction}
         />
       )}
-      {modal?.type === "goal" && <GoalModal onClose={onCloseModal} onSave={onSaveGoal} />}
+
+      {modal?.type === "goal" && (
+        <GoalModal onClose={onCloseModal} onSave={onSaveGoal} />
+      )}
+
       {modal?.type === "movement" && modal.goal && (
         <MovementModal
           goal={modal.goal}

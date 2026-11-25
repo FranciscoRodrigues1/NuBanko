@@ -307,6 +307,20 @@
   margin-left: auto;
 }
 
+.login-demo-button {
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid #6e54c7;
+  color: #bdb2ee;
+  background: #171522;
+}
+
+.login-demo-button:hover {
+  border-color: #9179eb;
+  color: #d8d0fa;
+  background: #211e30;
+}
+
 .login-error {
   margin: -5px 0 0;
   font-size: 11px;

@@ -61,7 +61,7 @@ export default function Login({ onLogin }) {
     <main className="login-page">
       <section className="login-intro" aria-label="Sobre o NuBanko">
         <a className="brand login-brand" href="#inicio" aria-label="NuBanko">
-          <span className="brand-mark">n</span>
+          <span className="brand-mark"><Icon name="wallet" size={20} /></span>
           <span>nu<span className="brand-light">banko</span></span>
         </a>
         <div className="login-intro-copy">
@@ -81,6 +81,9 @@ export default function Login({ onLogin }) {
       </section>
       <section className="login-form-side">
         <section className="login-card" aria-labelledby="login-title">
+          <span className="login-card-icon" aria-hidden="true">
+            <Icon name="wallet" size={22} />
+          </span>
           <p className="eyebrow">{registering ? "SEU PRIMEIRO PASSO" : "BORA COMEÇAR?"}</p>
           <h2 id="login-title">{registering ? "Crie sua conta" : "Boas-vindas de volta"}<span>.</span></h2>
           <p className="login-copy">{registering ? "Comece a organizar seus planos com uma conta demonstrativa." : "Acesse seu espaço e continue de onde parou."}</p>

@@ -84,7 +84,7 @@ Os dados são armazenados localmente no navegador, utilizando:
 
 A persistência local permite que os dados financeiros continuem disponíveis após fechar e abrir o navegador, desde que sejam utilizados o mesmo navegador e perfil e que seus dados não sejam apagados.
 
-**Importante:** as contas e os dados financeiros continuam locais; não há banco de dados nem sincronização em nuvem. A busca externa é opcional e usa apenas o termo perguntado, sem enviar os dados financeiros da conta. A função de busca deve ser hospedada como endpoint de servidor (por exemplo, Vercel Functions); o restante da aplicação continua sendo uma SPA.
+**Importante:** as contas e os dados financeiros continuam locais; não há banco de dados nem sincronização em nuvem. A busca externa usa apenas o termo perguntado, sem enviar os dados financeiros da conta. Sem chave adicional, consulta a Wikipédia; se configurada, usa a Brave Search API para uma busca mais ampla. A função de busca deve ser hospedada como endpoint de servidor (por exemplo, Vercel Functions); o restante da aplicação continua sendo uma SPA.
 
 ## 6. Requisitos para execução
 
@@ -125,9 +125,9 @@ VITE_DEMO_PASSWORD=sua-senha-demonstrativa
 BRAVE_SEARCH_API_KEY=sua-chave-da-brave-search
 ```
 
-As variáveis `VITE_DEMO_*` são opcionais para contas cadastradas localmente. Para habilitar a busca externa, configure uma chave da Brave Search API em `BRAVE_SEARCH_API_KEY`. Essa variável não deve ter o prefixo `VITE_`, pois a chave precisa permanecer no servidor. Sem ela, o chatbot mantém as respostas locais e informa quando não pode pesquisar.
+As variáveis `VITE_DEMO_*` são opcionais para contas cadastradas localmente. A busca externa funciona sem configuração adicional usando a Wikipédia. Para ampliar a busca para a web, configure uma chave da Brave Search API em `BRAVE_SEARCH_API_KEY`. Essa variável não deve ter o prefixo `VITE_`, pois a chave precisa permanecer no servidor.
 
-No desenvolvimento, `npm run dev` disponibiliza o endpoint por meio do middleware do Vite. Em produção, configure `BRAVE_SEARCH_API_KEY` no provedor de hospedagem e publique a função `api/search.js` como endpoint serverless. Hospedagens somente estáticas precisam de um endpoint equivalente.
+No desenvolvimento, `npm run dev` disponibiliza o endpoint por meio do middleware do Vite; a pré-visualização local com `npm run preview` também inclui esse endpoint. Em produção, configure `BRAVE_SEARCH_API_KEY` no provedor de hospedagem e publique a função `api/search.js` como endpoint serverless. Hospedagens somente estáticas precisam de um endpoint equivalente.
 
 ### 5. Iniciar a aplicação
 

@@ -102,18 +102,22 @@
 
 .economiques-categories {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin: 22px 0;
 }
 
 .economiques-categories button {
+  flex-shrink: 0;
+  min-height: 42px;
   border: 1px solid var(--border-color, #e6e2f0);
   background: var(--card-bg, #ffffff);
   color: var(--text-primary, #25233a);
   padding: 10px 18px;
   border-radius: 30px;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -295,6 +299,17 @@
 }
 
 @media (max-width: 650px) {
+  .economiques-categories {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .economiques-categories button {
+    width: 100%;
+    padding: 10px 8px;
+  }
+
   .economiques-hero {
     padding: 23px;
     border-radius: 22px;

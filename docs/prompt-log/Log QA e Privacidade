@@ -4,10 +4,16 @@ Lançamentos - Registros de Despesa e Lançamentos - OK
 Painel de saldo, receitas, despesas e resumo dos gastos - Existe uma despesa de 55 mil reais
 Criação e acompanhamento de metas financeiras - As metas financeiras possuem funções relevantes
 
-Desenhos das telas - super elaborados
+Desenhos das telas - super elaborados e fácil de entender
 
 Registro de despesas e receitas - Possível
 Valores calculados corretamente - Não
 Botões - Funcionam corretamente
 Criar e acompanhar meta - Possível
 Campos que aceitam informações incorretas ou incompletas - o "nova caixinha"
+
+Testes de Integração - as funcionalidades estão OK
+
+Privacidade - dados fictícios, não solicita senhas bancárias nem dados pessoais desnecessários, mas tem a impressão de estar conectada a bancos reais
+
+Erros - o único "erro" foi o valor

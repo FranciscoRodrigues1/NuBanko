@@ -10,6 +10,9 @@ const suggestedQuestions = [
   "Como estão meus gastos?",
   "Quais são minhas metas?",
   "Como posso economizar?",
+  "Como faço meu dinheiro render mais?",
+  "Quais são minhas opções de investimento?"
+  
 ];
 
 export default function AssistantAgent({
@@ -284,7 +287,7 @@ export default function AssistantAgent({
           </form>
           <p className="assistant-disclaimer">
             Respostas guiadas. Ações só são salvas após confirmar; os dados ficam neste navegador.
-            {" "}Buscas externas enviam apenas o termo pesquisado ao Brave Search.
+            {" "}Buscas externas enviam apenas o termo à Wikipédia ou ao Brave Search.
             {" "}
             <button type="button" onClick={() => onNavigate("transactions")}>
               Ver movimentações

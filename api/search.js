@@ -43,6 +43,36 @@ function getSafeResults(payload) {
     .slice(0, 5);
 }
 
+function getSafeWikipediaResults(payload) {
+  if (!Array.isArray(payload?.query?.search)) return [];
+
+  return payload.query.search
+    .map((result) => {
+      if (typeof result.title !== "string") return null;
+
+      const description = typeof result.snippet === "string"
+        ? result.snippet
+          .replace(/<[^>]*>/g, " ")
+          .replace(/&amp;/g, "&")
+          .replace(/&quot;/g, "\"")
+          .replace(/&#039;|&#39;/g, "'")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&nbsp;/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+        : "";
+
+      return {
+        title: result.title.slice(0, 160),
+        url: `https://pt.wikipedia.org/wiki/${encodeURIComponent(result.title.replace(/ /g, "_"))}`,
+        description: description.slice(0, 400),
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 5);
+}
+
 export default async function searchHandler(request, response) {
   if (request.method !== "GET") {
     response.setHeader("Allow", "GET");
@@ -55,16 +85,23 @@ export default async function searchHandler(request, response) {
   }
 
   const apiKey = process.env.BRAVE_SEARCH_API_KEY;
-  if (!apiKey) {
-    return sendJson(response, 503, { error: "A busca externa não está configurada." });
+  const endpoint = apiKey
+    ? new URL("https://api.search.brave.com/res/v1/web/search")
+    : new URL("https://pt.wikipedia.org/w/api.php");
+  if (apiKey) {
+    endpoint.searchParams.set("q", query);
+    endpoint.searchParams.set("count", "5");
+    endpoint.searchParams.set("country", "BR");
+    endpoint.searchParams.set("search_lang", "pt-br");
+    endpoint.searchParams.set("safesearch", "moderate");
+  } else {
+    endpoint.searchParams.set("action", "query");
+    endpoint.searchParams.set("list", "search");
+    endpoint.searchParams.set("srsearch", query);
+    endpoint.searchParams.set("format", "json");
+    endpoint.searchParams.set("utf8", "1");
+    endpoint.searchParams.set("srlimit", "5");
   }
-
-  const endpoint = new URL("https://api.search.brave.com/res/v1/web/search");
-  endpoint.searchParams.set("q", query);
-  endpoint.searchParams.set("count", "5");
-  endpoint.searchParams.set("country", "BR");
-  endpoint.searchParams.set("search_lang", "pt-br");
-  endpoint.searchParams.set("safesearch", "moderate");
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
@@ -73,7 +110,9 @@ export default async function searchHandler(request, response) {
     const upstreamResponse = await fetch(endpoint, {
       headers: {
         Accept: "application/json",
-        "X-Subscription-Token": apiKey,
+        ...(apiKey
+          ? { "X-Subscription-Token": apiKey }
+          : { "User-Agent": "NuBanko/0.1 (educational finance app)" }),
       },
       signal: controller.signal,
     });
@@ -84,7 +123,10 @@ export default async function searchHandler(request, response) {
     }
 
     const payload = await upstreamResponse.json();
-    return sendJson(response, 200, { results: getSafeResults(payload) });
+    const results = apiKey
+      ? getSafeResults(payload)
+      : getSafeWikipediaResults(payload);
+    return sendJson(response, 200, { results });
   } catch (error) {
     console.error("Não foi possível consultar a busca Brave.", error);
     return sendJson(response, 502, { error: "Não foi possível consultar a busca externa." });
